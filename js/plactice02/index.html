@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <title>サンプルホームページ</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    </head>
+
+    <body>
+        <header class="site-width">
+            <h1><a href="index.html">WEBUKATU</a></h1>
+            <nav id="top-nav">
+                <ul>
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#merit">MERIT</a></li>
+                    <li><a href="#recruit">RECRUIT</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+        </header>
+        <div id="main">
+            <!-- Contact -->
+            <section id="contact" class="site-width">
+                <h1 class="title">CONTACT</h1>
+                <form>
+                    <div class="form-group">
+                        <label>名前：任意<span class="help-block"></span>
+                            <input type="text" name="name" class="valid-text">
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail:*必須<span class="help-block"></span>
+                            <input type="text" name="email" class="valid-email">
+                        </label>
+                    </div>
+                <div class="form-group">
+                    <label>内容:*必須<span class="help-block"></span>
+                        <textarea cols="100" row="10" name="comment" class="valid-textarea"></textarea>
+                    </label>
+                </div>
+                <input type="submit" name="submit" value="送信">
+                </form>
+            </section>
+        </div>
+
+        <footer>
+            Copyright <a href="https://webukatu.com/">ウェブカツ！！サンプルホームページ</a>. All Rights Reserved.
+        </footer>
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="main.js"></script>
+    </body>
+</html>

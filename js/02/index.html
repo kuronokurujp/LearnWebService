@@ -1,0 +1,24 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ホームページのタイトル</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1 id="title">ホームページの見出し</h1>
+    <p>最初のホームページが完成しました！！</p>
+    <script>
+        window.addEventListener("DOMContentLoaded",
+        function(){
+            // html5以前のノード取得方法
+            //var node = document.getElementById("title");
+            var node = document.querySelector("#title");
+            node.style.color = "#cccccc";
+        }, false);
+    </script>
+</body>
+</html>
