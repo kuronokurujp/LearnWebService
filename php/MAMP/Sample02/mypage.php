@@ -1,3 +1,18 @@
+<?php
+    // ↓の2行は定型文としよう
+    // E_STRICTレベル以外のエラーを報告する
+    error_reporting(E_ALL);
+    // 画面にエラーを表示させるか
+    ini_set("display_errors", "On");
+
+    session_start();
+
+    // ログイン情報がないならログインページに戻る
+    if (empty($_SESSION['login'])) {
+        header("Location:login.php");
+    }
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,13 +36,21 @@
         </style>
     </head>
     <body>
-            <h1>マイページ</h1>
-            <section>
-                <p>
-                    あなたのemailは info@webukatu.com です。
-                    あなたのpassは password です。
-                </p>
-                <a href="index.php">ユーザー登録画面へ</a>
-            </section>
+            <!-- ログイン情報はcookieに保存されるので、デバッグする時はcookieを消すのが必要になる -!>
+            <?php if (!empty($_SESSION['login'])) { ?>
+                <h1>マイページ</h1>
+                <section>
+                    <p>
+                        あなたのemailは info@webukatu.com です。
+                        あなたのpassは password です。
+                    </p>
+                    <a href="login.php">ログイン画面へ</a>
+                </section>
+
+            <?php }else { ?>
+
+                <p>ログインしていないと見れません。</p>
+
+            <?php } ?>
     </body>
 </html>

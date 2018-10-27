@@ -25,25 +25,15 @@
             $err_msg['pass'] = MSG01;
         }
 
-        if (empty($_POST['pass_retype'])) {
-            $err_msg['pass_retype'] = MSG01;
-        }
-
         // エラーメッセージがない
         // 入力形式が正しいかチェック
         if (empty($err_msg)) {
             $email = htmlspecialchars($_POST['email'], ENT_QUOTES);
             $pass = htmlspecialchars($_POST['pass'], ENT_QUOTES);
-            $pass_re = htmlspecialchars($_POST['pass_retype'], ENT_QUOTES);
 
             // 3. emailの形式でない場合
             if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $email)) {
                 $err_msg['email'] = MSG02;
-            }
-
-            // 4. パスワードとパスワード再入力が合っていない場合
-            if ($pass !== $pass_re) {
-                $err_msg['pass'] = MSG03;
             }
 
             if (empty($err_flg)) {
@@ -77,10 +67,22 @@
                     $dbn = new PDO($dsn, $user, $password, $option);
 
                     // SQL文(クエリー作成)
-                    $stmt = $dbn->prepare('INSERT INTO users (email, pass, login_time) VALUES (:email, :pass, :login_time)');
+                    $stmt = $dbn->prepare('SELECT * FROM users WHERE email = :email AND pass = :pass');
 
                     // Insert命令の穴抜けの入力枠に値を設定してSQL文を実行
-                    $stmt->execute(array(':email' => $email, ':pass' => $pass, ':login_time' => date('Y/m/d H:i:s')));
+                    $stmt->execute(array(':email' => $email, ':pass' => $pass));
+
+                    $result = 0;
+                    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                    if (!(empty($result)))
+                    {
+                        // SESSION()を使うにsession_start()を呼び出す
+                        session_start();
+
+                        // SESSION['login']に値を代入
+                        $_SESSION['login'] = true;
+                    }
 
                     header("Location:mypage.php");
                 }
@@ -161,6 +163,5 @@
 
             <input type="submit" value="送信">
         </form>
-        <a href="mypage.php">マイページ</a>
     </body>
 </html>
