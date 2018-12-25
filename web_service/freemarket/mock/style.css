@@ -372,7 +372,12 @@ a.panel:hover {
 label{
   display: block;
 }
-input[type="text"], input[type="number"], .form select,
+
+label.err input{
+  background: #f7dcd9;
+}
+
+input[type="text"], input[type="password"], input[type="number"] .form select,
 textarea {
   margin-bottom: 15px;
   font-size: 18px;
