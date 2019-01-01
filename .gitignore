@@ -1,1 +1,5 @@
 web_service/freemarket/php.log
+.vscode/launch.json
+web_service/freemarket/mock/login.php
+web_service/freemarket/mock/webservice_practice02/
+web_service/freemarket/var/
