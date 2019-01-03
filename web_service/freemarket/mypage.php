@@ -1,4 +1,20 @@
 <?php
+  // 共通関数読み込み
+  require('function.php');
+
+  // ログ開始！
+  debug('---------------------------------');
+  debug('マイページ');
+  debug('---------------------------------');
+  debugLogStart();
+
+  // ログイン認証
+  require('auth.php');
+
+  debug('画面表示処理終了------------------------');
+?>
+
+<?php
   $siteTitle = "マイページ";
   require('head.php');
 ?>
