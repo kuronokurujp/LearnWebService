@@ -88,12 +88,12 @@ if (!empty($_POST)) {
                 }
 
                 // ユーザーIDを格納
-                $_SESSION['User_id'] = $result['id'];
+                $_SESSION['user_id'] = $result['id'];
 
                 debug('セッション変数の中身:'.print_r($_SESSION, true));
                 debug('マイページへ遷移します');
 
-                header('Location:mock/mypage.html');
+                header('Location:mypage.php');
             }
             else {
                 debug('パスワードがミスマッチです');
