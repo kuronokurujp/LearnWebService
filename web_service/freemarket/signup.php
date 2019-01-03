@@ -1,97 +1,127 @@
 <?php
+    require('function.php');
 
-require('function.php');
+    // ログ開始！
+    debug('---------------------------------');
+    debug('ログインページ');
+    debug('---------------------------------');
+    debugLogStart();
 
-// エラーメッセージの配列
-$err_msg = array();
+    // エラーメッセージの配列
+    $err_msg = array();
 
-// dbアクセス結果用
-$dbRst = false;
+    // dbアクセス結果用
+    $dbRst = false;
 
-// post送信しているか
-if (!empty($_POST)) {
-    // ユーザー情報を設定
-    $email = $_POST['email'];
-    $pass = $_POST['pass'];
-    $pass_re = $_POST['pass_retype'];
+    // post送信しているか
+    if (!empty($_POST)) {
+        // ユーザー情報を設定
+        $email = $_POST['email'];
+        $pass = $_POST['pass'];
+        $pass_re = $_POST['pass_retype'];
 
-    // バリデーションチェック
-    if (!validRequired($email)) {
-        $err_msg['email'] = MSG01;
-    }
-    if (!validRequired($pass)) {
-        $err_msg['pass'] = MSG01;
-    }
-    if (!validRequired($pass_re)) {
-        $err_msg['pass_retype'] = MSG01;
-    }
-
-    // バリデーションチェックで問題ないか
-    if (empty($err_msg)) {
-        // emailのフォーマットチェック
-        if (!validEmail($email)) {
-            $err_msg['email'] = MSG02;
+        // バリデーションチェック
+        if (!validRequired($email)) {
+            $err_msg['email'] = MSG01;
         }
-
-        $msg = validEmailDup($email);
-        if (!empty($msg)) {
-            $err_msg['email'] = $msg;
+        if (!validRequired($pass)) {
+            $err_msg['pass'] = MSG01;
         }
-
-        // パスワードとパスワード再入力が合っているか
-        if (!validMatch($pass, $pass_re)) {
-            $err_msg['pass'] = MSG03;
+        if (!validRequired($pass_re)) {
+            $err_msg['pass_retype'] = MSG01;
         }
 
         // バリデーションチェックで問題ないか
         if (empty($err_msg)) {
-
-            // パスワードの半角英数字チェック
-            if (!validHalf($pass)) {
-                $err_msg['pass'] = MSG04;
+            // emailのフォーマットチェック
+            if (!validEmail($email)) {
+                $err_msg['email'] = MSG02;
             }
 
-            // パスワードの最小文字数チェック
-            if (!validMinLen($pass)) {
-                $err_msg['pass'] = MSG05;
+            $msg = validEmailDup($email);
+            if (!empty($msg)) {
+                $err_msg['email'] = $msg;
             }
 
-            // パスワードの最大文字数チェック
-            if (!validMaxLen($pass)) {
-                $err_msg['pass'] = MSG06;
+            // パスワードとパスワード再入力が合っているか
+            if (!validMatch($pass, $pass_re)) {
+                $err_msg['pass'] = MSG03;
             }
 
             // バリデーションチェックで問題ないか
             if (empty($err_msg)) {
-                $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
-                try {
-                    //code...
-                    // DBへの接続準備
-                    $dbh = dbConnect();
 
-                    // SQLを投げる
-                    $resultQueryPost = false;
-                    $stm = queryPost(
-                    $dbh, 
-                    'INSERT INTO users (email, password, login_time, create_date) 
-                    VALUES (:email, :pass, :login_time, :create_date)', 
-                    array(':email' => $email, ':pass' => $pass_hash, 
-                          ':login_time' => date('Y-m-d H:i:s'),
-                          ':create_date' => date('Y-m-d H:i:s')),
-                    $resultQueryPost);
+                // パスワードの半角英数字チェック
+                if (!validHalf($pass)) {
+                    $err_msg['pass'] = MSG04;
+                }
 
-                    // SQL実行結果が成功なら
-                    header("Location:mock/mypage.html");
+                // パスワードの最小文字数チェック
+                if (!validMinLen($pass)) {
+                    $err_msg['pass'] = MSG05;
+                }
 
-                } catch (\Throwable $th) {
-                    //throw $th;
-                    error_log('エラー発生:', $th->getMessage());
-                    $err_msg['common'] = MSG08; 
+                // パスワードの最大文字数チェック
+                if (!validMaxLen($pass)) {
+                    $err_msg['pass'] = MSG06;
+                }
+
+                // バリデーションチェックで問題ないか
+                if (empty($err_msg)) {
+                    $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
+                    try {
+                        // DBへの接続準備
+                        $dbh = dbConnect();
+
+                        $sql = 
+                            'INSERT INTO users (email, password, login_time, create_date) 
+                            VALUES (:email, :pass, :login_time, :create_date)';
+                        
+                        $data = 
+                            array(':email' => $email, ':pass' => $pass_hash, 
+                                ':login_time' => date('Y-m-d H:i:s'),
+                                ':create_date' => date('Y-m-d H:i:s'));
+
+                        // SQLを投げる
+                        $resultQueryPost = false;
+                        $stm = queryPost($dbh,  $sql, $data, $resultQueryPost);
+
+                        if ($stm) {
+                            // mypageに遷移する前にセッションを作成することで、
+                            // mypageに遷移できるようにする
+                            // こうしないとmypageのauth.phpでセッションが存在しないと判定され、
+                            // ログインページに遷移してしまう。
+                            // mypageに遷移するためのフローが一つ増えるのを避けるために
+                            // ここでセッションを作成している。
+
+                            // ログイン有効期限(デフォルトを1時間に)
+                            $sesLimit = 60 * 60;
+                            // 最終ログイン日時を現在日時に
+                            $_SESSION['login_date'] = time();
+                            // ログイン保持にはチェックがある
+                            $_SESSION['login_limit'] = $sesLimit; 
+                            // ユーザーIDを格納
+                            $_SESSION['user_id'] = $dbh->lastInsertId();
+
+                            debug('セッションの中身:'.print_r($_SESSION, true));
+
+                            // SQL実行結果が成功なら
+                            header("Location:mypage.php");
+                        }
+                        else {
+                            error_log("クエリに失敗しました");
+                            $err_msg['common'] = MSG08; 
+                        }
+
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                        error_log('エラー発生:', $th->getMessage());
+                        $err_msg['common'] = MSG08; 
+                    }
                 }
             }
         }
     }
-}
 ?>
 
 <?php
