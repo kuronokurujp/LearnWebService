@@ -82,7 +82,7 @@
 
         try {
             $dbh = dbConnect();
-            $sql = 'SELECT * FROM users WHERE email = :email';
+            $sql = 'SELECT * FROM users WHERE email = :email AND delete_flag = 0';
             $data = array(':email' => $inEmail);
 
             // クエリ実行
