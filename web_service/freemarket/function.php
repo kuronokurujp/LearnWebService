@@ -58,6 +58,8 @@
     define('MSG07', 'Emailが重複しています');
     define('MSG08', '時間をおいて再度登録をお願い致します');
     define('MSG09', 'メールアドレスまたはパスワードが違います');
+    define('MSG10', '電話番号の形式が違います');
+    define('MSG11', '郵便番号の形式が違います');
 
     // 未入力のバリデーション関数
     function validRequired($inStr) {
@@ -128,6 +130,24 @@
         return true;
     }
 
+    // 電話番号形式のバリデーション関数
+    function validTel($inStr) {
+        if (!preg_match("/0\d{1,4}\d{1,4}\d{4}/", $inStr)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // 郵便番号形式のバリデーション関数
+    function validZip($inStr) {
+        if (!preg_match("/^\d{7}$/", $inStr)) {
+            return false;
+        }
+
+        return true;
+    }
+
     // 半角のバリデーション関数
     function validHalf($inStr) {
         if (!preg_match("/^[a-zA-Z0-9]+$/", $inStr)) {
@@ -135,6 +155,48 @@
         }
 
         return true;
+    }
+
+    // 半角数字のバリデーション関数
+    function validNumber($inStr) {
+        if (!preg_match("/^[0-9]+$/", $inStr)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // ユーザー情報をDBから取得する
+    function getUser($u_id) {
+        debug('ユーザー情報を取得します。');
+
+        try {
+            // DBに接続
+            $dbh = dbConnect();
+
+            // SQL文作成
+            $sql = 'SELECT * FROM `users` WHERE id = :u_id';
+
+            // SQL文に流すデータ作成
+            $data = array(':u_id' => $u_id);
+
+            // クエリ実行
+            $queryPostResult = false;
+            $stmt = queryPost($dbh, $sql, $data, $queryPostResult);
+
+            if ($stmt) {
+                debug('クエリ成功');
+            }
+            else {
+                debug('クエリに失敗しました');
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
+        }
+
+        // クエリの結果のデータを返却
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     // DB接続
@@ -173,4 +235,49 @@
 
         return $stmt;
     }
+
+    // フォーム入力保持
+    // プロフィール画面へ入力した情報を取得するために作成
+    // なぜ作成したか、プロフィール更新に失敗した場合DBで取得した情報をフォームに表示すると
+    // せっかく入力した情報が消えてしまう。
+    // 再入力の手間を省けるためにあらかじめ入力した情報を保持しておく
+    function getFormData($inStr, $inFormErrorFlag) {
+        global $dbFormData;
+
+        if (!empty($dbFormData)) {
+            // フォームにエラーがあった
+            if ($inFormErrorFlag) {
+                // フォームに入力があればそれを採用
+                // emptyではなくissetを採用している理由としては
+                // 数値の０がフォームに入力することがある
+                // 電話番号とか郵便番号、年齢などが
+                // 数値の０が設定されている場合もデータ存在すると判定しないといけないので、
+                // issetを利用する
+                // emptyだと0がないと判定されるので今回は使えない
+                if (isset($_POST[$inStr])) {
+                    return $_POST[$inStr];
+                }
+                // フォームに入力がなければDBを採用
+                else {
+                    return $dbFormData[$inStr];
+                }
+            }
+            else {
+                // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
+                if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
+                    return $_POST[$inStr];
+                }
+                // フォームの入力ないのでそもそも変更がない
+                else {
+                    return $dbFormData[$inStr];
+                }
+            }
+        }
+        elseif (isset($_POST[$inStr])) {
+            return $_POST[$inStr];
+        }
+
+        return '';
+    }
+
 ?>
