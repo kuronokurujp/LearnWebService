@@ -11,7 +11,7 @@
             <?php
                 } else {
             ?>
-                <li><a href="signup.php">マイページ</a></li>
+                <li><a href="mypage.php">マイページ</a></li>
                 <li><a href="logout.php">ログアウト</a></li>
             <?php
                 }
