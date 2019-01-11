@@ -2,8 +2,6 @@
 
     // ログを出す
     error_reporting(E_ALL);
-    // 画面にエラーを表示させるか
-    ini_set("display_errors", "On");
     // ログを取る
     ini_set('log_errors','on');
     // ログファイルの出力先を決める
@@ -12,6 +10,7 @@
     // デバッグ
     // サーバーにデプロイしてリリースした時はtrueからfalseにする
     $debug_flag = true;
+
     // デバッグログ関数
     function debug($str) {
         global $debug_flag;
@@ -60,6 +59,31 @@
     define('MSG09', 'メールアドレスまたはパスワードが違います');
     define('MSG10', '電話番号の形式が違います');
     define('MSG11', '郵便番号の形式が違います');
+    define('MSG12', '登録したパスワードと同じではありません');
+    define('MSG13', '古いのと新しいパスワードが同じです');
+    define('SUC01', 'パスワードを変更しました');
+
+    // パスワードのバリデーション関数
+    function validPass($inStr, &$outputErrorMsg) {
+        $outputErrorMsg = '';
+
+        if (!validHalf($inStr)) {
+            $outputErrorMsg = MSG04;
+            return false;
+        }
+
+        if (!validMaxLen($inStr)) {
+            $outputErrorMsg = MSG06;
+            return false;
+        }
+
+        if (!validMinLen($inStr)) {
+            $outputErrorMsg = MSG05;
+            return false;
+        }
+
+        return true;
+    }
 
     // 未入力のバリデーション関数
     function validRequired($inStr) {
@@ -81,7 +105,6 @@
 
     // emailの重複チェック
     function validEmailDup($inEmail) {
-
         try {
             $dbh = dbConnect();
             $sql = 'SELECT * FROM users WHERE email = :email AND delete_flag = 0';
@@ -96,7 +119,7 @@
                 return MSG07;
             }
         } catch(Exception $e) {
-            error_log('エラー発生:', $e->getMessage());
+            dbErrorLog($e);
             return MSG08;
         }
 
@@ -192,11 +215,17 @@
             }
         }
         catch (Exception $e) {
-            error_log('エラー発生:'.$e->getMessage());
+            dbErrorLog($e);
         }
 
         // クエリの結果のデータを返却
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // DB処理のエラーログ
+    function dbErrorLog($e) {
+        // 文字コードがshift-jisの場合utf8に変更してログ出力
+        error_log('エラー発生:'.mb_convert_encoding($e->getMessage(), "UTF-8", "Shift-JIS")); 
     }
 
     // DB接続
@@ -263,13 +292,18 @@
                 }
             }
             else {
-                // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
-                if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
-                    return $_POST[$inStr];
+                if(!empty($dbFormData[$inStr])) {
+                    // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
+                    if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
+                        return $_POST[$inStr];
+                    }
+                    // フォームの入力ないのでそもそも変更がない
+                    else {
+                        return $dbFormData[$inStr];
+                    }
                 }
-                // フォームの入力ないのでそもそも変更がない
                 else {
-                    return $dbFormData[$inStr];
+                    return $_POST[$inStr];
                 }
             }
         }
@@ -280,4 +314,42 @@
         return '';
     }
 
+    // メール送信
+    function sendMail($from, $to, $subject, $comment) {
+
+        // フォームがすべて入力さているか
+        if (!empty($to) && !empty($subject) && !empty($comment)) {
+            // 文字化けしないおきまり設定
+            mb_language("Japanese");
+            mb_internal_encoding("UTF-8");
+
+            // メール送信(送信結果はbool型で返ってくる)
+            $result = mb_send_mail($to, $subject, $comment, "From: ".$from);
+
+            // 送信結果を判定
+            if ($result) {
+                debug('メールが送信されました。');
+            }
+            else {
+                debug('メールの送信に失敗しました。');
+            }
+        }
+    }
+
+    // エラーメッセージ取得
+    function getErrorMessage($inErrorMessageArray, $inKey) {
+        if (!empty($inErrorMessageArray[$inKey])) {
+            return $inErrorMessageArray[$inKey];
+        }
+    }
+
+    // セッションのキー情報を一度のみ取得
+    function getSessionFlash($inKeyName) {
+        if (!empty($_SESSION[$inKeyName])) {
+            $data = $_SESSION[$inKeyName];
+            $_SESSION[$inKeyName] = '';
+
+            return $data;
+        }
+    }
 ?>

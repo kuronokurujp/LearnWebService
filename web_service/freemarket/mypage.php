@@ -26,6 +26,11 @@
   require('header.php');
 ?>
 
+<!-- 処理のメッセージを通知-->
+<p id="js-show-msg" style="display:none;" class="msg-slide">
+  <?php echo getSessionFlash('msg_success'); ?>
+</p>
+
 <!-- メインコンテンツ -->
 <div id="contents" class="site-width">
   

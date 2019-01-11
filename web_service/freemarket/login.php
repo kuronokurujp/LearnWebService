@@ -55,7 +55,6 @@
 
             // 例外処理
             try {
-
                 // DB接続
                 $dbh = dbConnect();
                 // SQL文作成
@@ -101,7 +100,7 @@
                 }
             }
             catch (Exception $e) {
-                error_log('エラー発生:'. $e->getMessage());
+                dbErrorLog($e);
                 $err_msg['common'] = MSG08;
             }
         }
