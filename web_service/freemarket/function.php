@@ -61,7 +61,22 @@
     define('MSG11', '郵便番号の形式が違います');
     define('MSG12', '登録したパスワードと同じではありません');
     define('MSG13', '古いのと新しいパスワードが同じです');
+    define('MSG14', '文字で入力してください');
+    define('MSG15', '正しくありません');
+    define('MSG16', '有効期限が切れています');
     define('SUC01', 'パスワードを変更しました');
+    define('SUC02', 'プロフィールを変更しました');
+    define('SUC03', 'メールを送信しました');
+
+    // 固定長チェック
+    function validLength($inStr, &$inLimitLen, $inLen=8) {
+        $inLimitLen = $inLen;
+        if (mb_strlen($inStr) !== $inLen) {
+            return false;
+        }
+
+        return true;
+    }
 
     // パスワードのバリデーション関数
     function validPass($inStr, &$outputErrorMsg) {
@@ -198,7 +213,7 @@
             $dbh = dbConnect();
 
             // SQL文作成
-            $sql = 'SELECT * FROM `users` WHERE id = :u_id';
+            $sql = 'SELECT * FROM `users` WHERE `id` = :u_id AND `delete_flag` = 0';
 
             // SQL文に流すデータ作成
             $data = array(':u_id' => $u_id);
@@ -351,5 +366,16 @@
 
             return $data;
         }
+    }
+
+    // 認証キーの作成
+    function makeRandKey($inLength = 8) {
+        static $chars = 'adcdefjhijklmnopqrstuvwxyzADCDEFJHIJKLMNOPQRSTUVWXYZ0123456789';
+        $str = '';
+        for ($i = 0; $i < $inLength; ++$i) {
+            $str .= $chars[mt_rand(0, mb_strlen($chars) - 1)];
+        }
+
+        return $str;
     }
 ?>

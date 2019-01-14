@@ -108,10 +108,6 @@
     debug('画面表示処理終了------------------------');
 ?>
 <?php
-
-
-?>
-<?php
     $siteTitle = 'ログイン';
     require('head.php')
 ?>
@@ -121,6 +117,11 @@
 <?php
     require('header.php');
 ?>
+
+<!-- 処理成功時にメッセージを出す-->
+<p id="js-show-msg" style="display:none;" class="msg-slide">
+  <?php echo getSessionFlash('msg_success'); ?>
+</p>
 
 <!-- メインコンテンツ -->
 <div id="contents" class="site-width">
@@ -167,7 +168,7 @@
                 <div class="btn-container">
                     <input type="submit" class="btn btn-mid" value="ログイン">
                 </div>
-                パスワードを忘れた方は<a href="/mock/passRemindSend.html">コチラ</a>
+                パスワードを忘れた方は<a href="passRemindSend.php">コチラ</a>
             </form>
         </div>
     </section>

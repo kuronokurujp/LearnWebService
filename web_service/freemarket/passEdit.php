@@ -126,11 +126,11 @@ EOT;
 ?>
 
 <body class="page-passEdit page-2colum page-logined">
-    <style>
-      .form {
-        margin-top: 50px;
-      }
-    </style>
+<style>
+  .form {
+    margin-top: 50px;
+  }
+</style>
 
 <!-- メニュー -->
 <?php
