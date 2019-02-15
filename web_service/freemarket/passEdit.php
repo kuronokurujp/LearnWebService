@@ -24,30 +24,30 @@
       $pass_new = $_POST['pass_new'];
       $pass_new_re = $_POST['pass_new_re'];
 
+      $valid_err_msg = '';
       // 未入力チェック
-      if (!validRequired($pass_old)) {
-        $err_msg['pass_old'] = MSG01;
+      if (!validRequired($pass_old, $valid_err_msg)) {
+        $err_msg['pass_old'] = $valid_err_msg;
       }
 
-      if (!validRequired($pass_new)) {
-        $err_msg['pass_new'] = MSG01;
+      if (!validRequired($pass_new, $valid_err_msg)) {
+        $err_msg['pass_new'] = $valid_err_msg;
       }
 
-      if (!validRequired($pass_new_re)) {
-        $err_msg['pass_new_re'] = MSG01;
+      if (!validRequired($pass_new_re, $valid_err_msg)) {
+        $err_msg['pass_new_re'] = $valid_err_msg;
       }
 
       if (empty($err_msg)) {
         debug('未入力チェックOK');
 
         // パスワードの内容チェック
-        $output_err_msg = '';
-        if (!validPass($pass_old, $output_err_msg)) {
-          $err_msg['pass_old'] = $output_err_msg;
+        if (!validPass($pass_old, $valid_err_msg)) {
+          $err_msg['pass_old'] = $valid_err_msg;
         }
 
-        if (!validPass($pass_new, $output_err_msg)) {
-          $err_msg['pass_new'] = $output_err_msg;
+        if (!validPass($pass_new, $valid_err_msg)) {
+          $err_msg['pass_new'] = $valid_err_msg;
         }
 
         // 古いパスワードがDBで登録しているパスワードと一致するか
@@ -61,8 +61,8 @@
         }
 
         // 新しいパスワードと再入力した新しいパスワードが一致するか 
-        if (!validMatch($pass_new, $pass_new_re)) {
-          $err_msg['pass_new_re'] = MSG03;
+        if (!validMatch($pass_new, $pass_new_re, $valid_err_msg)) {
+          $err_msg['pass_new_re'] = $valid_err_msg;
         }
 
         if (empty($err_msg)) {
@@ -78,7 +78,6 @@
 
             $resultPost = false;
             $stmt = queryPost($dbh, $sql, $data, $resultPost);
-
             if ($stmt) {
               debug('クエリ成功');
               // 変更結果のメッセージをJSで出す

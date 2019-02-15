@@ -30,63 +30,65 @@
       $age = $_POST['age'];
       $email = $_POST['email'];
 
+      $valid_err_msg = '';
+
       // DB情報と入力情報とが異なる場合はバリデーションチェックをする
       if ($dbFormData['username'] !== $username) { 
         // 名前の最大文字数チェック
-        if (!validMaxLen($username)) {
-          $err_msg['username'] = MSG06;
+        if (!validMaxLen($username, $valid_err_msg)) {
+          $err_msg['username'] = $valid_err_msg;
         }
       }
 
       if ($dbFormData['tel'] !== $tel) {
         // 電話番号の形式チェック
-        if (!validTel($tel)) {
-          $err_msg['tel'] = MSG10;
+        if (!validTel($tel, $valid_err_msg)) {
+          $err_msg['tel'] = $valid_err_msg;
         }
       }
 
       // 郵便番号はint型なのでキャストして文字列から整数型に変換
       if ((int)$dbFormData['zip'] !== $zip) {
-        if (!validZip($zip)) {
-          $err_msg['zip'] = MSG11;
+        if (!validZip($zip, $valid_err_msg)) {
+          $err_msg['zip'] = $valid_err_msg;
         }
       }
 
       if ($dbFormData['addr'] !== $addr) {
         // 住所チェック
-        if (!validMaxLen($addr)) {
-          $err_msg['addr'] = MSG06;
+        if (!validMaxLen($addr, $valid_err_msg)) {
+          $err_msg['addr'] = $valid_err_msg;
         }
       }
 
       if ($dbFormData['age'] !== $age) {
         // 年齢チェック
-        if (!validMaxLen($age)) {
-          $err_msg['age'] = MSG06;
+        if (!validMaxLen($age, $valid_err_msg)) {
+          $err_msg['age'] = $valid_err_msg;
         }
 
-        if (!validNumber($age)) {
-          $err_msg['age'] = MSG04;
+        if (!validNumber($age, $valid_err_msg)) {
+          $err_msg['age'] = $valid_err_msg;
         }
       }
 
       if ($dbFormData['email'] !== $email) {
-        if (!validMaxLen($email)) {
-          $err_msg['email'] = MSG06;
+        if (!validMaxLen($email, $valid_err_msg)) {
+          $err_msg['email'] = $valid_err_msg;
         }
 
         if (empty($err_msg['email'])) {
-          if (validEmailDup($email)) {
-            $err_msg['email'] = MSG07;
+          if (validEmailDup($email, $valid_err_msg)) {
+            $err_msg['email'] = $valid_err_msg;
           }
         }
 
-        if (!validEmail($email)) {
-          $err_msg['email'] = MSG09;
+        if (!validEmail($email, $valid_err_msg)) {
+          $err_msg['email'] = $valid_err_msg;
         }
 
-        if (!validRequired($email)) {
-          $err_msg['email'] = MSG01;
+        if (!validRequired($email, $valid_err_msg)) {
+          $err_msg['email'] = $valid_err_msg;
         }
       }
 

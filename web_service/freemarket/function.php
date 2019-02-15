@@ -64,16 +64,34 @@
     define('MSG14', '文字で入力してください');
     define('MSG15', '正しくありません');
     define('MSG16', '有効期限が切れています');
+    define('MSG17', '半角数字のみご利用できます');
     define('SUC01', 'パスワードを変更しました');
     define('SUC02', 'プロフィールを変更しました');
     define('SUC03', 'メールを送信しました');
+    define('SUC04', '登録しました');
 
-    // 固定長チェック
-    function validLength($inStr, &$inLimitLen, $inLen=8) {
-        $inLimitLen = $inLen;
-        if (mb_strlen($inStr) !== $inLen) {
+    // selectboxのチェック
+    function validSelect($inStr, &$outErrMsg) {
+        // 数字でない場合はエラー
+        if (!preg_match("/^[0-9]+$/", $inStr)) {
+            $outErrMsg = MSG15;
             return false;
         }
+
+        $outErrMsg = '';
+
+        return true;
+    }
+
+    // 固定長チェック
+    function validLength($inStr, &$inLimitLen, &$outErrMsg, $inLen=8) {
+        $inLimitLen = $inLen;
+        if (mb_strlen($inStr) !== $inLen) {
+            $outErrMsg = MSG14;
+            return false;
+        }
+
+        $outErrMsg = '';
 
         return true;
     }
@@ -82,18 +100,15 @@
     function validPass($inStr, &$outputErrorMsg) {
         $outputErrorMsg = '';
 
-        if (!validHalf($inStr)) {
-            $outputErrorMsg = MSG04;
+        if (!validHalf($inStr, $outputErrorMsg)) {
             return false;
         }
 
-        if (!validMaxLen($inStr)) {
-            $outputErrorMsg = MSG06;
+        if (!validMaxLen($inStr, $outputErrorMsg)) {
             return false;
         }
 
-        if (!validMinLen($inStr)) {
-            $outputErrorMsg = MSG05;
+        if (!validMinLen($inStr, $outputErrorMsg)) {
             return false;
         }
 
@@ -101,25 +116,33 @@
     }
 
     // 未入力のバリデーション関数
-    function validRequired($inStr) {
-        if (empty($inStr)) {
+    function validRequired($inStr, &$outErrMsg) {
+        // 数の文字列があるのでemptyとすると０の文字列を空と判定される。
+        // なので空文字列なら失敗にする
+        if ($inStr === '') {
+            $outErrMsg = MSG01;
             return false;
         }
+
+        $outErrMsg = '';
 
         return true;
     }
 
     // emailの未入力のバリデーション関数
-    function validEmail($inStr) {
+    function validEmail($inStr, &$outErrMsg) {
         if (!preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $inStr)) {
+            $outErrMsg = MSG02;
             return false;
         }
+
+        $outErrMsg = '';
 
         return true;
     }
 
     // emailの重複チェック
-    function validEmailDup($inEmail) {
+    function validEmailDup($inEmail, &$outErrMsg) {
         try {
             $dbh = dbConnect();
             $sql = 'SELECT * FROM users WHERE email = :email AND delete_flag = 0';
@@ -128,40 +151,57 @@
             // クエリ実行
             $resultPost = false;
             $stm = queryPost($dbh, $sql, $data, $resultPost);
-            $result = $stm->fetch(PDO::FETCH_ASSOC);
-            if (!empty($result)) {
-                // 重複している
-                return MSG07;
+            if ($stm) {
+                debug('クエリ成功');
+
+                $result = $stm->fetch(PDO::FETCH_ASSOC);
+                if (!empty($result)) {
+                    // 重複している
+                    $outErrMsg = MSG07;
+                    return null;
+                }
+            }
+            else {
+                debug('クエリ失敗');
+                return null;
             }
         } catch(Exception $e) {
             dbErrorLog($e);
-            return MSG08;
+            $outErrMsg = MSG08;
+            return null;
         }
 
         return null;
     }
 
     // 同値のバリデーション関数
-    function validMatch($inStr, $inStr2) {
+    function validMatch($inStr, $inStr2, &$outErrMsg) {
         if ($inStr !== $inStr2) {
+            $outErrMsg = MSG15;
             return false;
         }
+
+        $outErrMsg = '';
 
         return true;
     }
 
     // 最小文字数のバリデーション関数
-    function validMinLen($inStr, $inMin = 6) {
+    function validMinLen($inStr, &$outErrMsg, $inMin = 6) {
         if (mb_strlen($inStr) < $inMin) {
+            $outErrMsg = MSG05;
             return false;
         }
+
+        $outErrMsg = MSG06;
 
         return true;
     }
 
     // 最大文字数のバリデーション関数
-    function validMaxLen($inStr, $inMax = 255) {
+    function validMaxLen($inStr, &$outErrMsg, $inMax = 255) {
         if (mb_strlen($inStr) > $inMax) {
+            $outErrMsg = MSG06;
             return false;
         }
 
@@ -169,37 +209,47 @@
     }
 
     // 電話番号形式のバリデーション関数
-    function validTel($inStr) {
+    function validTel($inStr, &$outErrMsg) {
         if (!preg_match("/0\d{1,4}\d{1,4}\d{4}/", $inStr)) {
+            $outErrMsg = MSG10;
             return false;
         }
+
+        $outErrMsg = '';
 
         return true;
     }
 
     // 郵便番号形式のバリデーション関数
-    function validZip($inStr) {
+    function validZip($inStr, &$outErrMsg) {
         if (!preg_match("/^\d{7}$/", $inStr)) {
+            $outErrMsg = MSG11;
             return false;
         }
 
+        $outErrMsg = '';
         return true;
     }
 
     // 半角のバリデーション関数
-    function validHalf($inStr) {
+    function validHalf($inStr, &$outErrMsg) {
         if (!preg_match("/^[a-zA-Z0-9]+$/", $inStr)) {
+            $outErrMsg = MSG05;
             return false;
         }
 
+        $outErrMsg = '';
         return true;
     }
 
     // 半角数字のバリデーション関数
-    function validNumber($inStr) {
+    function validNumber($inStr, &$outErrMsg) {
         if (!preg_match("/^[0-9]+$/", $inStr)) {
+            $outErrMsg = MSG17;
             return false;
         }
+
+        $outErrMsg = '';
 
         return true;
     }
@@ -224,9 +274,11 @@
 
             if ($stmt) {
                 debug('クエリ成功');
+                return $stmt->fetch(PDO::FETCH_ASSOC);
             }
             else {
                 debug('クエリに失敗しました');
+                return false;
             }
         }
         catch (Exception $e) {
@@ -234,7 +286,35 @@
         }
 
         // クエリの結果のデータを返却
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        // return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // プロダクト取得
+    function getProduct($u_id, $p_id) {
+        debug('商品情報を取得');
+        debug('ユーザーID:'.$u_id);
+        debug('プロダクトID:'.$p_id);
+
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+
+            $sql = 'SELECT * FROM product WHERE user_id = :u_id AND id = :p_id AND delete_flag = 0';
+            $data = array(':u_id' => $u_id, ':p_id' => $p_id);
+            $result_flag = false;
+            $stmt = queryPost($dbn, $sql, $data, $result_flag);
+            if ($stmt) {
+                debug('クエリ成功');
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+            else {
+                debug('クエリ失敗');
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            dbErrorLog($e);
+        }
     }
 
     // DB処理のエラーログ
@@ -246,7 +326,7 @@
     // DB接続
     function dbConnect() {
         // DBへの接続準備
-        $dsn = 'mysql:dbname=freemarket;host-localhost;charset-utf8';
+        $dsn = 'mysql:dbname=freemarket;host=localhost;charset=utf8';
         $user = 'root';
         $password = 'root';
         $options = array(
@@ -267,17 +347,88 @@
 
     // DBにSQLを投げる
     function queryPost($dbh, $sql, $data, &$outResultPost) {
+        debug('SQL:'.$sql);
+        debug('流し込みデータ:'.print_r($data, true));
+
         // SQL文(クエリー作成)
         $stmt = $dbh->prepare($sql);
         // ブレースホルダーに値を設定、SQL文を実行
         if ($stmt->execute($data)) {
+            debug('クエリ成功');
             $outResultPost = true;
         }
         else {
+            debug('クエリ失敗');
             $outResultPost = false;
+            return 0;
         }
 
         return $stmt;
+    }
+
+    // 画像ファイル更新
+    function uploadImg($inFile, &$outErrMsg) {
+        debug('画像更新開始');
+        debug('画像ファイルデータ：'.$inFile);
+
+        $outErrMsg = '';
+        // 数字が設定しているかをチェック
+        if (isset($inFile['error']) && is_int($inFile['error'])) {
+            // 画像データが正常なデータかチェック
+            try {
+                switch ($inFile['error']) {
+                    // 画像データが正常
+                    case UPLOAD_ERR_OK: {
+                        break;
+                    }
+                    // ファイル未選択
+                    case UPLOAD_ERR_NO_FILE: {
+                        throw new RuntimeException('ファイル選択されていません');
+                    }
+                    // php.ini定義にあるデータ最大サイズを超えている
+                    case UPLOAD_ERR_INI_SIZE:
+                    // フォーム定義の最大サイズを超えている
+                    case UPLOAD_ERR_FORM_SIZE:
+                        throw new RuntimeException('ファイルサイズが大きすぎる');
+                        break;
+                    // その他のエラー
+                    default: {
+                        throw new RuntimeException('その他のエラーが発生しました');
+                    }
+                }
+
+                // $inFile['mime']の値は操作できてしまうらしい
+                // なので面倒だが自前でMIMEタイプをチェック
+                // @を付けると引数値の問題でエラーになっても処理が進む！
+                $type = @exif_imagetype($inFile['tmp_name']);
+                // 第三引数にtrueを設定すると厳しくチェックする
+                if (!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMGETYPE_PNG], true)) {
+                    throw new RuntimeException("画像形式が未対応です");
+                }
+
+                // 正常だったので更新する
+                // ファイルデータからハッシュを取得してそれをファイル名にして保存する
+                // これをする理由はファイル名の重複するとアップロードが上書きするのでそれを防ぐため
+                $path = 'uploads/'.sha1_file($inFile['tmp_name']).image_type_to_extension($type);
+
+                // ファイルを指定したパスへ移動
+                if (!move_uploaded_file($inFile['tmp_name'], $path)) {
+                    throw new RuntimeException("ファイル保存時にエラーが発生しました");
+                }
+
+                // 移動したファイルは権限を変更する
+                chmod($path, 0644);
+
+                debug('ファイルは正常にアップロード');
+                debug('ファイルパス:'.$path);
+
+                return $path;
+            }
+            catch (RuntimeException $e) {
+                debbug($e->getMessage());
+                $outErrMsg = $e->getMessage();
+            }
+        }
     }
 
     // フォーム入力保持
@@ -290,7 +441,7 @@
 
         if (!empty($dbFormData)) {
             // フォームにエラーがあった
-            if ($inFormErrorFlag) {
+            if(!empty($dbFormData[$inStr])) {
                 // フォームに入力があればそれを採用
                 // emptyではなくissetを採用している理由としては
                 // 数値の０がフォームに入力することがある
@@ -307,26 +458,19 @@
                 }
             }
             else {
-                if(!empty($dbFormData[$inStr])) {
-                    // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
-                    if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
-                        return $_POST[$inStr];
-                    }
-                    // フォームの入力ないのでそもそも変更がない
-                    else {
-                        return $dbFormData[$inStr];
-                    }
-                }
-                else {
+                // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
+                if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
                     return $_POST[$inStr];
+                }
+                // フォームの入力ないのでそもそも変更がない
+                else {
+                    return $dbFormData[$inStr];
                 }
             }
         }
         elseif (isset($_POST[$inStr])) {
             return $_POST[$inStr];
         }
-
-        return '';
     }
 
     // メール送信
@@ -377,5 +521,32 @@
         }
 
         return $str;
+    }
+
+    // 商品のカテゴリーをDBから取得
+    function getCategory() {
+        debug('カテゴリーデータを取得');
+
+        try {
+            $dbh = dbConnect();
+
+            $sql = 'SELECT * FROM `category`';
+            $data = array();
+            $result_flag = false;
+
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+            // 該当するカテゴリー名一覧
+            if ($stmt) {
+                debug('クエリ成功');
+                return $stmt->fetchAll();
+            }
+            else {
+                debug('クエリ失敗');
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラーログ：'.$e->getMessage());
+        }
     }
 ?>

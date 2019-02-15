@@ -3,3 +3,5 @@ web_service/freemarket/php.log
 web_service/freemarket/mock/login.php
 web_service/freemarket/mock/webservice_practice02/
 web_service/freemarket/var/
+web_service/freemarket/uploads/*.*
+web_service/sample/

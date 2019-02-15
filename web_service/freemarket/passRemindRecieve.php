@@ -23,21 +23,23 @@
       // フォームに入力した認証キーを取得
       $auth_key = $_POST['token'];
 
+      $valid_err_msg = '';
+
       // 未入力チェック
-      if (!validRequired($auth_key)) {
-        $err_msg['token'] = MSG01;
+      if (!validRequired($auth_key, $valid_err_msg)) {
+        $err_msg['token'] = $valid_err_msg;
       }
 
       if (empty($err_msg)) {
         debug('未入力チェックOK');
 
         $limitLen = 0;
-        if(!validLength($auth_key, $limitLen)) {
+        if(!validLength($auth_key, $limitLen, $valid_err_msg)) {
           $err_msg['token'] = $limitLen . MSG14;
         }
 
-        if (!validHalf($auth_key)) {
-          $err_msg['token'] = MSG04;
+        if (!validHalf($auth_key, $valid_err_msg)) {
+          $err_msg['token'] = $valid_err_msg;
         }
 
         if (empty($err_msg)) {

@@ -19,19 +19,20 @@
 
       $email = $_POST['email'];
 
-      if (!validRequired($email)) {
-        $err_msg['email'] = MSG01;
+      $valid_err_msg = '';
+      if (!validRequired($email, $valid_err_msg)) {
+        $err_msg['email'] = $valid_err_msg;
       }
 
       if (empty($err_msg)) {
         debug('未入力チェックOK');
 
-        if (!validEmail($email)) {
-          $err_msg['email'] = MSG02;
+        if (!validEmail($email, $valid_err_msg)) {
+          $err_msg['email'] = $valid_err_msg;
         }
 
-        if (!validMaxLen($email))  {
-          $err_msg['email'] = MSG6;
+        if (!validMaxLen($email, $valid_err_msg))  {
+          $err_msg['email'] = $valid_err_msg;
         }
 
         if (empty($err_msg)) {
@@ -47,23 +48,24 @@
             // クエリ送信
             $result_flag = false;
             $stmt = queryPost($dbh, $sql, $data, $result_flag);
+            if ($stmt) {
+              debug('クエリ成功');
+              // クエリ結果の値を取得
+              $result = $stmt->Fetch(PDO::FETCH_ASSOC);
 
-            // クエリ結果の値を取得
-            $result = $stmt->Fetch(PDO::FETCH_ASSOC);
+              if (array_shift($result)) {
+                debug('フォームに入力したEmailがDBに保存されている');
 
-            if ($stmt && array_shift($result)) {
-              debug('フォームに入力したEmailがDBに保存されている');
+                $_SESSION['msg_success'] = SUC03; 
+                // 認証キーの作成
+                $auth_key = makeRandKey();
 
-              $_SESSION['msg_success'] = SUC03; 
-              // 認証キーの作成
-              $auth_key = makeRandKey();
+                // メールを送信
+                $from = 'info@gmail.com';
+                $to = $email;
+                $subject = 'パスワード再発行認証';
 
-              // メールを送信
-              $from = 'info@gmail.com';
-              $to = $email;
-              $subject = 'パスワード再発行認証';
-
-              $comment = <<<EOT
+                $comment = <<<EOT
 本メールアドレス宛にパスワード再発行のご依頼がありました。
 下記のURLにて認証キーをご入力頂くとパスワードが再発行されます。
 
@@ -80,21 +82,26 @@ URL    https/
 E-mail info@gmail.com
 /////////////////////////////
 EOT;
-              sendMail($from, $to, $subject, $comment);
+                sendMail($from, $to, $subject, $comment);
 
-              // 認証に必要な情報をセッションに保存
-              $_SESSION['auth_key'] = $auth_key;
-              $_SESSION['auth_email'] = $email;
-              // 認証キーを発行してからの有効時間の設定
-              $_SESSION['auth_key_limit'] = time() + (60 *30);
-              debug('セッションの中身：'.print_r($_SESSION, true));
+                // 認証に必要な情報をセッションに保存
+                $_SESSION['auth_key'] = $auth_key;
+                $_SESSION['auth_email'] = $email;
+                // 認証キーを発行してからの有効時間の設定
+                $_SESSION['auth_key_limit'] = time() + (60 *30);
+                debug('セッションの中身：'.print_r($_SESSION, true));
 
-              // 認証ページへ移動
-              header('Location:passRemindRecieve.php');
+                // 認証ページへ移動
+                header('Location:passRemindRecieve.php');
+              }
+              else {
+                // DBに未登録のemail
+                debug('DBにemailが登録していないかのどちらか');
+                $err_msg['common'] = MSG08;
+              }
             }
             else {
-              // DBに未登録のemail
-              debug('クエリに失敗したかDBにemailが登録していないかのどちらか');
+              debug('クエリ失敗');
               $err_msg['common'] = MSG08;
             }
           }
