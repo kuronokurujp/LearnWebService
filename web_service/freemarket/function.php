@@ -1,5 +1,4 @@
 <?php
-
     // ログを出す
     error_reporting(E_ALL);
     // ログを取る
@@ -317,6 +316,44 @@
         }
     }
 
+    // プロダクトをリスト取得
+    function getProductList($inCurrentMinNum = 1, $inSpan = 20) {
+        debug('商品情報を取得');
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+            $sql = 'SELECT id FROM product';
+            $data = array();
+            $result_flag = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+            $rst['total'] = $stmt->rowCount();
+            $rst['total_page'] = ceil($rst['total'] / $inSpan);
+            debug('SELECT id FROM prodcut rowCount => '.$stmt->rowCount());
+            if (!$stmt) {
+                return false;
+            }
+
+            // todo 本来ならSQLインジェクション対策をするべき
+            // しかしLIMIT構文は数値を入れないと動かないので今の仕組みでは動かない
+            $sql = 'SELECT * FROM product';
+            $sql .= ' LIMIT '.$inSpan.' OFFSET '.$inCurrentMinNum;
+            $data = array();
+            debug('SQL:'.$sql);
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+            if ($stmt) {
+                // クエリ結果のデータを全レコードを格納
+                $rst['data'] = $stmt->fetchAll();
+                return $rst;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'. $e->getMessage());
+        }
+    }
+
     // DB処理のエラーログ
     function dbErrorLog($e) {
         // 文字コードがshift-jisの場合utf8に変更してログ出力
@@ -352,6 +389,7 @@
 
         // SQL文(クエリー作成)
         $stmt = $dbh->prepare($sql);
+        // todo LIMIT構文を利用できるようにためにbindParam対応が必要になる
         // ブレースホルダーに値を設定、SQL文を実行
         if ($stmt->execute($data)) {
             debug('クエリ成功');
@@ -431,6 +469,16 @@
         }
     }
 
+    // サニタイズ
+    function sanitize($inStr) {
+        // HTMLエンティティ化
+        // クロスサイトスクリプティング対応
+        // フォームで入力テキストがHTMLタグだとHTML解釈されてページされる
+        // 入力してテキストにサイト誘導など悪意のあるのがあると問題になるので
+        // 入力したフォームテキストはタグとして解釈されないようにする
+        return htmlspecialchars($inStr, ENT_QUOTES);
+    }
+
     // フォーム入力保持
     // プロフィール画面へ入力した情報を取得するために作成
     // なぜ作成したか、プロフィール更新に失敗した場合DBで取得した情報をフォームに表示すると
@@ -450,26 +498,26 @@
                 // issetを利用する
                 // emptyだと0がないと判定されるので今回は使えない
                 if (isset($_POST[$inStr])) {
-                    return $_POST[$inStr];
+                    return sanitize($_POST[$inStr]);
                 }
                 // フォームに入力がなければDBを採用
                 else {
-                    return $dbFormData[$inStr];
+                    return sanitize($dbFormData[$inStr]);
                 }
             }
             else {
                 // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
                 if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
-                    return $_POST[$inStr];
+                    return sanitize($_POST[$inStr]);
                 }
                 // フォームの入力ないのでそもそも変更がない
                 else {
-                    return $dbFormData[$inStr];
+                    return sanitize($dbFormData[$inStr]);
                 }
             }
         }
         elseif (isset($_POST[$inStr])) {
-            return $_POST[$inStr];
+            return sanitize($_POST[$inStr]);
         }
     }
 

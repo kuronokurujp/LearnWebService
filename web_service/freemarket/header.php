@@ -1,6 +1,6 @@
 <header>
     <div class='site-width'>
-        <h1><a href="mock/index.html">MARKET</a></h1>
+        <h1><a href="index.php">MARKET</a></h1>
         <nav id="top-nav">
             <ul>
                 <?php
