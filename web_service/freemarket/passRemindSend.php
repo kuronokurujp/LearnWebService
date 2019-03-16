@@ -143,7 +143,7 @@ EOT;
 
         <label class="<?php if (!empty($err_msg['email'])) echo 'err'; ?>">
           Email
-          <input type="text" name="email" value="<?php echo getFormData('email', !empty($err_msg['email'])); ?>">
+          <input type="text" name="email" value="<?php echo getFormData('email', false, !empty($err_msg['email'])); ?>">
         </label>
         <div class="area-msg">
           <?php

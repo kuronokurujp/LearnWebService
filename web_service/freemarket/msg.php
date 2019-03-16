@@ -1,14 +1,21 @@
-<!DOCTYPE html>
-<html lang="ja">
+<?php
+  // 共通変数・関数ファイル読み込み
+  require('function.php');
 
-  <head>
-    <meta charset="utf-8">
-    <title>連絡掲示板 | WEBUKATU MARKET</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-    
+  debug('-------------------------------');
+  debug('連絡掲示板ページ');
+  debug('-------------------------------');
+  debugLogStart();
+
+  debug('連絡掲示板処理終了');
+?>
+
+<?php
+  $siteTitle = '連絡掲示板 ';
+  require('head.php');
+?>
+  <body class="page-msg page-1colum">
     <style>
-
       /* 連絡掲示板 */
       .msg-info{
         background: #f6f5f4;
@@ -129,23 +136,15 @@
         float: right;
       }
     </style>
-    
-  </head>
-
-  <body class="page-msg page-1colum">
 
     <!-- メニュー -->
-    <header>
-      <div class="site-width">
-        <h1><a href="index.html">WEBUKATU MARKET</a></h1>
-        <nav id="top-nav">
-          <ul>
-            <li><a href="mypage.html">マイページ</a></li>
-            <li><a href="">ログアウト</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <?php
+      require('header.php');
+    ?>
+
+    <p id="js-show-msg" style="display:none;" class="msg-slide">
+      <?php echo getSessionFlash('msg_success'); ?>
+    </p>
 
     <!-- メインコンテンツ -->
     <div id="contents" class="site-width">
@@ -153,7 +152,7 @@
       <section id="main" >
         <div class="msg-info">
           <div class="avatar-img">
-            <img src="img/avatar.png" alt="" class="avatar"><br>
+            <img src="mock/img/avatar.png" alt="" class="avatar"><br>
           </div>
           <div class="avatar-info">
             山田　太郎　33歳<br>
@@ -164,7 +163,7 @@
           <div class="product-info">
             <div class="left">
               取引商品<br>
-              <img src="img/sample01.jpg" alt="" height="70px" width="auto" >
+              <img src="mock/img/sample01.jpg" alt="" height="70px" width="auto" >
             </div>
             <div class="right">
               iPhone6s<br>
@@ -176,7 +175,7 @@
         <div class="area-bord" id="js-scroll-bottom">
           <div class="msg-cnt msg-left">
             <div class="avatar">
-              <img src="img/avatar2.jpg" alt="" class="avatar">
+              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -185,7 +184,7 @@
           </div>
           <div class="msg-cnt msg-right">
             <div class="avatar">
-              <img src="img/avatar.png" alt="" class="avatar">
+              <img src="mock/img/avatar.png" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -194,7 +193,7 @@
           </div>
           <div class="msg-cnt msg-left">
             <div class="avatar">
-              <img src="img/avatar2.jpg" alt="" class="avatar">
+              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -203,7 +202,7 @@
           </div>
           <div class="msg-cnt msg-right">
             <div class="avatar">
-              <img src="img/avatar.png" alt="" class="avatar">
+              <img src="mock/img/avatar.png" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -212,7 +211,7 @@
           </div>
           <div class="msg-cnt msg-left">
             <div class="avatar">
-              <img src="img/avatar2.jpg" alt="" class="avatar">
+              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -221,7 +220,7 @@
           </div>
           <div class="msg-cnt msg-right">
             <div class="avatar">
-              <img src="img/avatar.png" alt="" class="avatar">
+              <img src="mock/img/avatar.png" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -230,7 +229,7 @@
           </div>
           <div class="msg-cnt msg-left">
             <div class="avatar">
-              <img src="img/avatar2.jpg" alt="" class="avatar">
+              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
             </div>
             <p class="msg-inrTxt">
               <span class="triangle"></span>
@@ -255,9 +254,6 @@
     </div>
 
     <!-- footer -->
-    <footer>
-      Copyright <a href="http://webukatu.com/">ウェブカツ!!WEBサービス部</a>. All Rights Reserved.
-    </footer>
-
-  </body>
-</html>
+    <?php
+      require('footer.php');
+    ?>

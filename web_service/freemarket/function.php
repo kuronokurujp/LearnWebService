@@ -68,6 +68,7 @@
     define('SUC02', 'プロフィールを変更しました');
     define('SUC03', 'メールを送信しました');
     define('SUC04', '登録しました');
+    define('SUC05', '購入しました！相手と連絡を取りましょう');
 
     // selectboxのチェック
     function validSelect($inStr, &$outErrMsg) {
@@ -317,18 +318,30 @@
     }
 
     // プロダクトをリスト取得
-    function getProductList($inCurrentMinNum = 1, $inSpan = 20) {
+    function getProductList($inCurrentMinNum, $category, $sort, $inSpan = 20) {
         debug('商品情報を取得');
         // 例外処理
         try {
             $dbh = dbConnect();
             $sql = 'SELECT id FROM product';
+            // カテゴリーとリストソートする
+            if (!empty($category)) $sql .= ' WHERE category_id = '.$category;
+            if (!empty($sort)) {
+                switch ($sort) {
+                    case 1:
+                        $sql .= ' ORDER BY price ASC';
+                        break;
+                    case 2:
+                        $sql .= ' ORDER BY price DESC';
+                        break;
+                }
+            }
+
             $data = array();
             $result_flag = false;
             $stmt = queryPost($dbh, $sql, $data, $result_flag);
             $rst['total'] = $stmt->rowCount();
             $rst['total_page'] = ceil($rst['total'] / $inSpan);
-            debug('SELECT id FROM prodcut rowCount => '.$stmt->rowCount());
             if (!$stmt) {
                 return false;
             }
@@ -336,9 +349,21 @@
             // todo 本来ならSQLインジェクション対策をするべき
             // しかしLIMIT構文は数値を入れないと動かないので今の仕組みでは動かない
             $sql = 'SELECT * FROM product';
+            // カテゴリーとリストソートする
+            if (!empty($category)) $sql .= ' WHERE category_id = '.$category;
+            if (!empty($sort)) {
+                switch ($sort) {
+                    case 1:
+                        $sql .= ' ORDER BY price ASC';
+                        break;
+                    case 2:
+                        $sql .= ' ORDER BY price DESC';
+                        break;
+                }
+            }
+
             $sql .= ' LIMIT '.$inSpan.' OFFSET '.$inCurrentMinNum;
             $data = array();
-            debug('SQL:'.$sql);
             $stmt = queryPost($dbh, $sql, $data, $result_flag);
             if ($stmt) {
                 // クエリ結果のデータを全レコードを格納
@@ -351,6 +376,33 @@
         }
         catch (Exception $e) {
             error_log('エラー発生:'. $e->getMessage());
+        }
+    }
+
+    // 指定したproduct_idの商品情報を取得
+    function getProductOne($p_id) {
+        debug('商品情報を取得');
+        debug('商品ID:'.$p_id);
+
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+            $sql = 'SELECT p.id, p.name, p.comment, p.price, p.pic1, p.pic2, p.pic3, p.user_id, p.create_date, p.update_date, c.name AS category 
+                    FROM product AS p LEFT JOIN category AS c ON p.category_id = c.id WHERE p.id = :p_id AND p.delete_flag = 0 AND c.delete_flag = 0';
+            $data = array(':p_id' => $p_id);
+            $result_flag = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+
+            if ($stmt) {
+                // 成功
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
         }
     }
 
@@ -397,6 +449,7 @@
         }
         else {
             debug('クエリ失敗');
+            debug('失敗したSQL:'.print_r($stmt, true));
             $outResultPost = false;
             return 0;
         }
@@ -439,8 +492,9 @@
                 // なので面倒だが自前でMIMEタイプをチェック
                 // @を付けると引数値の問題でエラーになっても処理が進む！
                 $type = @exif_imagetype($inFile['tmp_name']);
+                debug('アップロードする画像タイプ : '.$type);
                 // 第三引数にtrueを設定すると厳しくチェックする
-                if (!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMGETYPE_PNG], true)) {
+                if (!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG], true)) {
                     throw new RuntimeException("画像形式が未対応です");
                 }
 
@@ -463,7 +517,7 @@
                 return $path;
             }
             catch (RuntimeException $e) {
-                debbug($e->getMessage());
+                debug($e->getMessage());
                 $outErrMsg = $e->getMessage();
             }
         }
@@ -484,7 +538,13 @@
     // なぜ作成したか、プロフィール更新に失敗した場合DBで取得した情報をフォームに表示すると
     // せっかく入力した情報が消えてしまう。
     // 再入力の手間を省けるためにあらかじめ入力した情報を保持しておく
-    function getFormData($inStr, $inFormErrorFlag) {
+    function getFormData($inStr, $inGETFlag, $inFormErrorFlag) {
+        if ($inGETFlag) {
+            $method = $_GET;
+        }
+        else {
+            $method = $_POST;
+        }
         global $dbFormData;
 
         if (!empty($dbFormData)) {
@@ -497,8 +557,8 @@
                 // 数値の０が設定されている場合もデータ存在すると判定しないといけないので、
                 // issetを利用する
                 // emptyだと0がないと判定されるので今回は使えない
-                if (isset($_POST[$inStr])) {
-                    return sanitize($_POST[$inStr]);
+                if (isset($method[$inStr])) {
+                    return sanitize($method[$inStr]);
                 }
                 // フォームに入力がなければDBを採用
                 else {
@@ -507,8 +567,8 @@
             }
             else {
                 // フォームに入力があるが、DBのデータと異なる場合はフォームを採用
-                if (isset($_POST[$inStr]) && $_POST[$inStr] !== $dbFormData[$inStr]) {
-                    return sanitize($_POST[$inStr]);
+                if (isset($method[$inStr]) && $method[$inStr] !== $dbFormData[$inStr]) {
+                    return sanitize($method[$inStr]);
                 }
                 // フォームの入力ないのでそもそも変更がない
                 else {
@@ -516,8 +576,8 @@
                 }
             }
         }
-        elseif (isset($_POST[$inStr])) {
-            return sanitize($_POST[$inStr]);
+        elseif (isset($method[$inStr])) {
+            return sanitize($method[$inStr]);
         }
     }
 
@@ -595,6 +655,80 @@
         }
         catch (Exception $e) {
             error_log('エラーログ：'.$e->getMessage());
+        }
+    }
+
+    // ページング機能
+    function pagination($currentPageNum, $totalPageNum, $link='', $pageColNum = 5) {
+        debug('ページングのリンクテキスト : '.$link);
+
+        if ($currentPageNum == $totalPageNum && $totalPageNum >= $pageColNum) {
+            $minPageNum = $currentPageNum - 4;
+            $maxPageNum = $currentPageNum;
+        }
+        elseif($currentPageNum == ($totalPageNum - 1) && $totalPageNum >= $pageColNum) {
+            $minPageNum = $currentPageNum - 3;
+            $maxPageNum = $currentPageNum + 1;
+        }
+        elseif ($currentPageNum == 2 && $totalPageNum >= $pageColNum) {
+            $minPageNum = $currentPageNum - 1;
+            $maxPageNum = $currentPageNum + 3;
+        }
+        elseif($currentPageNum == 1 && $totalPageNum >= $pageColNum) {
+            $minPageNum = $currentPageNum;
+            $maxPageNum = 5;
+        }
+        elseif ($totalPageNum < $pageColNum) {
+            $minPageNum = 1; 
+            $maxPageNum = $totalPageNum;
+        }
+        else {
+            $minPageNum = $currentPageNum - 2;
+            $maxPageNum = $currentPageNum + 2;
+        }
+
+        echo '<div class="pagination">';
+          echo '<ul class="pagination-list">';
+          $andLink = (!empty($link)) ? '&'.$link : '';
+
+            if ($currentPageNum != 1) {
+              echo '<li class="list-item"><a href="?p=1'.$andLink.'">&lt;</a></li>';
+            }
+
+            for ($i = $minPageNum; $i <= $maxPageNum; $i++) { 
+                echo '<li class="list-item ';
+                if ($currentPageNum == $i) { echo 'active'; }
+                echo '"><a href="?p='.$i.$andLink.'">'.$i.'</a></li>';
+            }
+
+            if ($currentPageNum != $maxPageNum && $maxPageNum > 1) {
+              echo '<li class="list-item"><a href="?p='.$maxPageNum.$andLink.'">&gt;</a></li>';
+            }
+          echo '</ul>';
+        echo '</div>';
+    }
+
+    // 画像表示用
+    function showImg($inPath) {
+        if (empty($inPath)) {
+            return 'mock/img/sample-img.png';
+        }
+        else {
+            return $inPath;
+        }
+    }
+
+    // GETパラメータ付与
+    function appendGetParam($inArrDelKey) {
+        if (!empty($_GET)) {
+            $str = '?';
+            foreach ($_GET as $key => $value) {
+                if (!in_array($key, $inArrDelKey, true)) {
+                    $str .= $key.'='.$value.'&';
+                }
+            }
+            $str = mb_substr($str, 0, -1, "UTF-8");
+            return $str;
         }
     }
 ?>

@@ -21,6 +21,7 @@
 
       debug('post送信があります。');
       debug('post情報:'.print_r($_POST, true));
+      debug('file情報:'.print_r($_FILES, true));
 
       $username = $_POST['username'];
       $tel = $_POST['tel'];
@@ -29,6 +30,14 @@
       $addr = $_POST['addr'];
       $age = $_POST['age'];
       $email = $_POST['email'];
+      // 画像をアップロード、パスを格納
+      $upload_err_msg = '';
+      $pic = (!empty($_FILES['pic']['name'])) ? uploadImg($_FILES['pic'], $upload_err_msg) : '';
+      if (!empty($upload_err_msg)) {
+        $err_msg['pic'] = $upload_err_msg;
+      }
+      // 画像を登録していないとpostしない、その時はDBに登録している場合、DBのパスを入れる
+      $pic = ( empty($pic) && !empty($dbFormData['pic'])) ? $dbFormData['pic'] : $pic;
 
       $valid_err_msg = '';
 
@@ -99,13 +108,15 @@
         try {
           $db = dbConnect();
 
-          $sql = 'UPDATE `users` SET `username`=:u_name, `tel`=:tel, `zip`=:zip, `addr`=:addr, `age`=:age, `email`=:email WHERE `id`=:u_id';
-          $data = array(':u_name'=>$username, ':tel'=>$tel, ':zip'=>$zip, ':addr'=>$addr, ':age'=>$age, ':email'=>$email, ':u_id'=>$dbFormData['id']);
+          debug('idの変数型 : '.gettype($dbFormData['id']));
+          $sql = 'UPDATE `users` SET `username`=:u_name, `tel`=:tel, `zip`=:zip, `addr`=:addr, `age`=:age, `email`=:email, `pic` = :pic WHERE `id`=:u_id';
+          $data = array(':u_name'=>$username, ':tel'=>$tel, ':zip'=>$zip, ':addr'=>$addr, ':age'=>$age, ':email'=>$email, ':pic'=>$pic, ':u_id'=>$dbFormData['id']);
 
           $resultFlag = false;
           $stmt = queryPost($db, $sql, $data, $resultFlag);
 
           if ($stmt) {
+            $_SESSION['msg_success'] = SUC02;
             debug('クエリ成功！');
             debug('マイページへ遷移します。');
 
@@ -146,7 +157,7 @@
   <!-- Main -->
   <section id="main" >
     <div class="form-container">
-      <form action="" method="post" class="form">
+      <form action="" method="post" class="form" enctype="multipart/form-data">
         <div class="area-msg">
           <?php
               if (!empty($err_msg['common'])) {
@@ -157,7 +168,7 @@
 
         <label class="<?php if(!empty($err_msg['username'])) echo 'err'; ?>">
           名前
-          <input type="text" name="username" value="<?php echo getFormData('username', !empty($err_msg['username'])); ?>">
+          <input type="text" name="username" value="<?php echo getFormData('username', false, !empty($err_msg['username'])); ?>">
         </label>
         <div class="area-msg">
           <?php
@@ -169,7 +180,7 @@
 
         <label class="<?php if(!empty($err_msg['tel'])) echo 'err'; ?>">
           TEL<span style='font-size:12px;margin-left:5px;'>※ハイフン無しでご入力ください</span>
-          <input type="text" name="tel" value="<?php echo getFormData('tel', !empty($err_msg['tel'])); ?>">
+          <input type="text" name="tel" value="<?php echo getFormData('tel', false, !empty($err_msg['tel'])); ?>">
         </label>
         <div class="area-msg">
           <?php
@@ -182,8 +193,8 @@
         <label class="<?php if(!empty($err_msg['zip'])) echo 'err'; ?>">
           郵便番号<span style='font-size:12px;margin-left:5px;'>※ハイフン無しでご入力ください</span>
           <input type="text" name="zip" value="<?php
-            if(!empty(getFormData('zip', !empty($err_msg['zip'])))) {
-              echo getFormData('zip', !empty($err_msg['zip']));
+            if(!empty(getFormData('zip', false, !empty($err_msg['zip'])))) {
+              echo getFormData('zip', false, !empty($err_msg['zip']));
             }
           ?>">
         </label>
@@ -197,7 +208,7 @@
 
         <label class="<?php if(!empty($err_msg['addr'])) echo 'err'; ?>">
           住所
-          <input type="text" name="addr" value="<?php echo getFormData('addr', !empty($err_msg['addr'])); ?>">
+          <input type="text" name="addr" value="<?php echo getFormData('addr', false, !empty($err_msg['addr'])); ?>">
         </label>
         <div class="area-msg">
           <?php
@@ -209,7 +220,7 @@
 
         <label style="text-align:left;" class="<?php if(!empty($err_msg['age'])) echo 'err'; ?>">
           年齢
-          <input type="number" name="age" value="<?php echo getFormData('age', !empty($err_msg['age'])); ?>">
+          <input type="number" name="age" value="<?php echo getFormData('age', false, !empty($err_msg['age'])); ?>">
         </label>
         <div class="area-msg">
           <?php
@@ -221,7 +232,7 @@
 
         <label class="<?php if(!empty($err_msg['email'])) echo 'err'; ?>">
           Email
-          <input type="text" name="email" value="<?php echo getFormData('email', !empty($err_msg['email'])); ?>">
+          <input type="text" name="email" value="<?php echo getFormData('email', false, !empty($err_msg['email'])); ?>">
         </label>
          <div class="area-msg">
           <?php
@@ -230,7 +241,18 @@
               }
           ?>
         </div>
-      
+        プロフィール画像
+        <label class="area-drop <?php if (!empty($err_msg['pic'])) echo 'err'; ?>" style='height:370px;line-height:370px;'>
+              <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
+              <input type="file" name="pic" class="input-file" style="height:370px;">
+              <img src="<?php echo getFormData('pic', false, !empty($err_msg['pic'])); ?>" alt="" class="prev-img" style="<?php if(empty(getFormData('pic', false, !empty($err_msg['pic'])))) echo 'display:none;' ?>">
+              ドラッグ&ドロップ
+        </label>
+        <div class="area-msg">
+              <?php
+                if (!empty($err_msg['pic'])) echo $err_msg['pic'];
+              ?>
+        </div>
         <div class="btn-container">
           <input type="submit" class="btn btn-mid" value="変更する">
         </div>

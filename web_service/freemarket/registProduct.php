@@ -228,7 +228,7 @@
             <option value="0" 
             <?php 
               $error_flag = false;
-              if (getFormData('category_id', $error_flag) == 0) {
+              if (getFormData('category_id', false, $error_flag) == 0) {
                 echo 'selected';
               };
             ?>>
@@ -240,7 +240,7 @@
               <option value= "<?php echo $value['id']; ?>" 
               <?php
                 $error_flag = false;
-                if (getFormData('category_id', $error_flag) == $value['id']) {
+                if (getFormData('category_id', false, $error_flag) == $value['id']) {
                   echo 'selected';
                 };
               ?>>
@@ -261,7 +261,7 @@
 
         <label class="<?php if (!empty($err_msg['comment'])) echo 'err'; ?>">
           詳細
-          <textarea name="comment" id="js-count" cols="30" rows="10" style="height:150px;"><?php $error_flag = false; echo getFormData('comment', $error_flag); ?></textarea>
+          <textarea name="comment" id="js-count" cols="30" rows="10" style="height:150px;"><?php $error_flag = false; echo getFormData('comment', false, $error_flag); ?></textarea>
         </label>
         <p class="counter-text"><span id="js-count-view">0</span>/500文字</p>
         <div class="area-msg">
@@ -278,7 +278,7 @@
             <input type="text" name="price" style="width:150px" placeholder="50,000"
             value="<?php
               $error_flag = false;
-              echo (!empty(getFormData('price', $error_flag))) ? getFormData('price', $error_flag) : 0;
+              echo (!empty(getFormData('price', false, $error_flag))) ? getFormData('price', false, $error_flag) : 0;
             ?>"><span class="option">円</span>
           </div>
         </label>
@@ -297,7 +297,7 @@
             <label class="area-drop" <?php if(!empty($err_msg['pic1'])) echo 'err'; ?>>
               <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
               <input type="file" name="pic1" class="input-file">
-              <img src="<?php $error_flag = false; echo getFormData('pic1', $error_flag); ?>" alt="" class="prev-img" style="<?php $error_flag = false; if (empty(getFormData('pic1', $error_flag))) { echo 'display:none'; } ?>">
+              <img src="<?php $error_flag = false; echo getFormData('pic1', false, $error_flag); ?>" alt="" class="prev-img" style="<?php $error_flag = false; if (empty(getFormData('pic1', false, $error_flag))) { echo 'display:none'; } ?>">
                 ドラッグ＆ドロップ
             </label>
             <div class="area-msg">
@@ -314,7 +314,7 @@
             <label class="area-drop" <?php if(!empty($err_msg['pic2'])) echo 'err'; ?>>
               <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
               <input type="file" name="pic2" class="input-file">
-              <img src=" <?php $error_flag = false; echo getFormData('pic2', $error_flag); ?>" alt="" class="prev-img" style="<?php $error_flag = false; if (empty(getFormData('pic2', $error_flag))) { echo 'display:none'; } ?>">
+              <img src=" <?php $error_flag = false; echo getFormData('pic2', false, $error_flag); ?>" alt="" class="prev-img" style="<?php $error_flag = false; if (empty(getFormData('pic2', false, $error_flag))) { echo 'display:none'; } ?>">
                 ドラッグ＆ドロップ
             </label>
             <div class="area-msg">
@@ -331,7 +331,7 @@
             <label class="area-drop" <?php if(!empty($err_msg['pic3'])) echo 'err'; ?>>
               <input type="hidden" name="MAX_FILE_SIZE" value="3145728">
               <input type="file" name="pic3" class="input-file">
-              <img src="<?php $error_lag = false; echo getFormData('pic3', $error_flag); ?>" alt="" class="prev-img" style="<?php $error_flag = false; if (empty(getFormData('pic3', $error_flag))) {echo 'display:none';} ?>">
+              <img src="<?php $error_lag = false; echo getFormData('pic3', false, $error_flag); ?>" alt="" class="prev-img" style="<?php $error_flag = false; if (empty(getFormData('pic3', false, $error_flag))) {echo 'display:none';} ?>">
                 ドラッグ＆ドロップ
             </label>
             <div class="area-msg">

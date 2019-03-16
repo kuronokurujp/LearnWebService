@@ -151,7 +151,7 @@ EOT;
 
         <label class="<?php if (!empty($err_msg['pass_old'])) echo 'err'; ?>">
           古いパスワード
-          <input type="password" name="pass_old" value="<?php echo getFormData('pass_old',!empty($err_msg['pass_old'])); ?>">
+          <input type="password" name="pass_old" value="<?php echo getFormData('pass_old', false, !empty($err_msg['pass_old'])); ?>">
         </label>
         <div class="area-msg">
           <?php
@@ -161,7 +161,7 @@ EOT;
 
         <label class="<?php if (!empty($err_msg['pass_new'])) echo 'err'; ?>">
           新しいパスワード
-          <input type="password" name="pass_new" value="<?php echo getFormData('pass_new', !empty($err_msg['pass_new'])); ?>">
+          <input type="password" name="pass_new" value="<?php echo getFormData('pass_new', false, !empty($err_msg['pass_new'])); ?>">
         </label>
         <div class="area-msg">
           <?php
@@ -171,7 +171,7 @@ EOT;
 
         <label class="<?php if (!empty($err_msg['pass_new_re'])) echo 'err'; ?>">
           新しいパスワード（再入力）
-          <input type="password" name="pass_new_re" value="<?php echo getFormData('pass_new_re', !empty($err_msg['pass_new_re'])); ?>">
+          <input type="password" name="pass_new_re" value="<?php echo getFormData('pass_new_re', false, !empty($err_msg['pass_new_re'])); ?>">
         </label>
         <div class="area-msg">
           <?php

@@ -141,7 +141,7 @@ EOT;
         </div>
         <label class="<?php if (!empty($err_msg['token'])) echo 'err'; ?>">
           認証キー
-          <input type="text" name="token" valie="<?php echo getFormData('token', !empty($err_msg['token'])); ?>">
+          <input type="text" name="token" valie="<?php echo getFormData('token', false, !empty($err_msg['token'])); ?>">
         </label>
         <div class="area-msg">
           <?php
