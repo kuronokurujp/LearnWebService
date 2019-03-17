@@ -13,6 +13,7 @@
   $myUserInfo = '';
   $productInfo = '';
   $dealUserIds = array();
+  $transactionBeginDate = '';
   $err_msg = array();
 
   // GETパラメータを取得
@@ -43,6 +44,9 @@
   if (!empty($viewData[0]['buy_user'])) {
     $dealUserIds[] = $viewData[0]['buy_user'];
   }
+
+  // 取引開始日を取得
+  $transactionBeginDate = $viewData[0]['create_date'];
 
   if (($key = array_search($_SESSION['user_id'], $dealUserIds)) !== false) {
     // 自身のIDは外して相手のIDのみ残す
@@ -292,7 +296,7 @@
             <div class="right">
               <?php echo sanitize($productInfo['name']); ?><br>
               取引金額：<span class="price">¥<?php echo sanitize($productInfo['price']); ?></span><br>
-              取引開始日：<?php echo date('Y/m/d', strtotime(sanitize($viewData[0]['create_data'])));?>
+              取引開始日：<?php echo date('Y-m-d', strtotime(sanitize($transactionBeginDate)));?>
             </div>
           </div>
         </div>
