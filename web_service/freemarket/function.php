@@ -273,7 +273,6 @@
             $stmt = queryPost($dbh, $sql, $data, $queryPostResult);
 
             if ($stmt) {
-                debug('クエリ成功');
                 return $stmt->fetch(PDO::FETCH_ASSOC);
             }
             else {
@@ -731,4 +730,30 @@
             return $str;
         }
     }
+
+    // Msg取得
+    function getMsgsAndBord($id) {
+        debug('msg情報を取得');
+        debug('掲示板ID:'.$id);
+
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+            $sql = 'SELECT m.id AS m_id, product_id, bord_id, send_date, to_user, from_user, sale_user, buy_user, msg, b.create_date FROM message AS m RIGHT JOIN bord AS b ON b.id = m.bord_id WHERE b.id = :id AND b.delete_flag = 0 ORDER BY send_date ASC';
+            $data = array(':id' => $id);
+            $result_flag = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+
+            if($stmt) {
+                return $stmt->fetchAll();
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
+        }
+    }
+
 ?>

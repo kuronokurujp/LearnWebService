@@ -7,6 +7,130 @@
   debug('-------------------------------');
   debugLogStart();
 
+  // 画面処理
+  $partnerUserId = '';
+  $partnerUserInfo = '';
+  $myUserInfo = '';
+  $productInfo = '';
+  $dealUserIds = array();
+  $err_msg = array();
+
+  // GETパラメータを取得
+  $m_id = (!empty($_GET['m_id'])) ? $_GET['m_id'] : '';
+  // DBから掲示板とメッセージデータを取得
+  $viewData = getMsgsAndBord($m_id);
+  debug('取得したDBデータ：'.print_r($viewData, true));
+  // 不正チェック
+  if (empty($viewData)) {
+    error_log('エラー発生:指定したページに不正な値が入った');
+    header('Location:mypage.php');
+  }
+
+  // 商品情報を取得
+  $productInfo = getProductOne($viewData[0]['product_id']);
+  debug('取得したDBデータ:'.print_r($productInfo, true));
+  // 商品情報が入っているかチェック
+  if (empty($productInfo)) {
+    error_log('エラー発生:指定したページに不正な値が入った');
+    header('Location:mypage.php');
+  }
+
+  // viewDataから相手のユーザーIDを取り出す
+  if (!empty($viewData[0]['sale_user'])) {
+    $dealUserIds[] = $viewData[0]['sale_user'];
+  }
+
+  if (!empty($viewData[0]['buy_user'])) {
+    $dealUserIds[] = $viewData[0]['buy_user'];
+  }
+
+  if (($key = array_search($_SESSION['user_id'], $dealUserIds)) !== false) {
+    // 自身のIDは外して相手のIDのみ残す
+    unset($dealUserIds[$key]);
+  }
+
+  // todo viewData連想配列の中にm_id=''のがあれば削除する
+  if (empty($viewData[0]['m_id']))
+  {
+    unset($viewData[0]);
+  }
+
+  // 相手のIDを取得
+  $partnerUserId = array_shift($dealUserIds);
+  debug('取得した相手のユーザーID:'.$partnerUserId);
+  // DBから取引相手のユーザー情報を取得
+  if (isset($partnerUserId)) {
+    $partnerUserInfo = getUser($partnerUserId);
+  }
+  debug('取得した相手のユーザーデータ:'.print_r($partnerUserInfo, true));
+
+  // 相手のユーザーIDがあるか
+  if (empty($partnerUserInfo)) {
+    error_log('エラー発生:指定したページに不正な値が入った');
+    header('Location:mypage.php');
+  }
+
+  // DBから自分のユーザー情報を取得
+  $myUserInfo = getUser($_SESSION['user_id']);
+  debug('取得したユーザーデータ:'.print_r($myUserInfo, true));
+  if (empty($myUserInfo)) {
+    error_log('エラー発生:指定したページに不正な値が入った');
+    header('Location:mypage.php');
+  }
+
+  // post送信されていた場合
+  debug('POSTデータ:'.print_r($_POST, true));
+  if (!empty($_POST)) {
+    debug('POST送信があります。');
+
+    // ログイン認証
+    require('auth.php');
+
+    // バリデーションチェック
+    $msg = (isset($_POST['msg'])) ? $_POST['msg'] : '';
+    $valide_err_msg = '';
+    if (!validMaxLen($msg, $valide_err_msg, 500)) {
+      $err_msg['msg'] = $valide_err_msg;
+    }
+
+    if (!validRequired($msg, $valide_err_msg)) {
+      $err_msg['msg'] = $valide_err_msg;
+    }
+
+    debug('err_msg:'.print_r($err_msg, true));
+    if (empty($err_msg)) {
+      debug('バリデーションOKです');
+
+      // DBとの通信があるので例外処理を付ける
+      try {
+        $dbh = dbConnect();
+        $sql = 'INSERT INTO message(bord_id, send_date, to_user, from_user, msg, create_date) VALUES (:b_id, :send_date, :to_user, :from_user, :msg, :date)';
+        $data = array(
+          'b_id' => $m_id,
+          ':send_date' => date('Y-m-d H:i:s'),
+          ':to_user' => $partnerUserId,
+          ':from_user' => $_SESSION['user_id'],
+          ':msg' => $msg,
+          ':date' => date('Y-m-d H:i:s'),
+        );
+
+        $result_flag = false;
+        $stmt = queryPost($dbh, $sql, $data, $result_flag);
+        if ($stmt) {
+          // POSTをクリアする
+          $_POST = array();
+          debug('連絡掲示板へ移動');
+          // 自身に遷移
+          header('Location: '.$SERVER['PHP_SELF'].'?m_id='.$m_id);
+        }
+      }
+      catch (Exception $e) {
+        error_log('エラー発生:'.$e->getMessage());
+        $err_msg['common'] = MSG08;
+      }
+    }
+  }
+
   debug('連絡掲示板処理終了');
 ?>
 
@@ -81,7 +205,7 @@
         margin-bottom: 30px;
       }
       .area-bord .msg-cnt .avatar{
-        width: 5%;
+        width: 5.2%;
         overflow: hidden;
         float: left;
       }
@@ -152,94 +276,70 @@
       <section id="main" >
         <div class="msg-info">
           <div class="avatar-img">
-            <img src="mock/img/avatar.png" alt="" class="avatar"><br>
+            <img src="<?php echo showImg(sanitize($partnerUserInfo['pic'])); ?>" alt="" class="avatar"><br>
           </div>
           <div class="avatar-info">
-            山田　太郎　33歳<br>
-            〒111-11111<br>
-            東京都墨田区◯◯◯１−１−１◯◯◯マンション１３０３号室<br>
-            TEL：000-0000-0000
+            <?php echo sanitize($partnerUserInfo['username']).' '.sanitize($partnerUserInfo['age']).'歳'; ?><br>
+            〒<?php echo wordwrap($partnerUserInfo['zip'], 4, "-", true)?><br>
+            <?php echo sanitize($partnerUserInfo['addr']);?><br>
+            TEL：<?php echo sanitize($partnerUserInfo['tel']);?>
           </div>
           <div class="product-info">
             <div class="left">
               取引商品<br>
-              <img src="mock/img/sample01.jpg" alt="" height="70px" width="auto" >
+              <img src="<?php echo sanitize($productInfo['pic1']);?>" alt="" height="70px" width="auto" >
             </div>
             <div class="right">
-              iPhone6s<br>
-              取引金額：<span class="price">¥87,000</span><br>
-              取引開始日：2016/00/00
+              <?php echo sanitize($productInfo['name']); ?><br>
+              取引金額：<span class="price">¥<?php echo sanitize($productInfo['price']); ?></span><br>
+              取引開始日：<?php echo date('Y/m/d', strtotime(sanitize($viewData[0]['create_data'])));?>
             </div>
           </div>
         </div>
         <div class="area-bord" id="js-scroll-bottom">
-          <div class="msg-cnt msg-left">
-            <div class="avatar">
-              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキスト
-            </p>
-          </div>
-          <div class="msg-cnt msg-right">
-            <div class="avatar">
-              <img src="mock/img/avatar.png" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキ
-            </p>
-          </div>
-          <div class="msg-cnt msg-left">
-            <div class="avatar">
-              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサ
-            </p>
-          </div>
-          <div class="msg-cnt msg-right">
-            <div class="avatar">
-              <img src="mock/img/avatar.png" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキ
-            </p>
-          </div>
-          <div class="msg-cnt msg-left">
-            <div class="avatar">
-              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサ
-            </p>
-          </div>
-          <div class="msg-cnt msg-right">
-            <div class="avatar">
-              <img src="mock/img/avatar.png" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキ
-            </p>
-          </div>
-          <div class="msg-cnt msg-left">
-            <div class="avatar">
-              <img src="mock/img/avatar2.jpg" alt="" class="avatar">
-            </div>
-            <p class="msg-inrTxt">
-              <span class="triangle"></span>
-              サンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサンプルテキストサ
-            </p>
-          </div>
+          <?php
+            if (!empty($viewData)) {
+                foreach ($viewData as $key => $value) {
+                  if (!empty($value['from_user']) && $value['from_user'] == $partnerUserId) {
+          ?>
+                    <div class="msg-cnt msg-left">
+                      <div class="avatar">
+                        <img src="<?php echo sanitize(showImg($partnerUserInfo['pic']));?>" alt="" class="avatar">
+                      </div>
+                      <p class="msg-inrTxt">
+                        <span class="triangle"></span>
+                        <?php echo sanitize($value['msg']); ?>
+                      </p>
+                    </div>
+          <?php
+                  }
+                  else {
+          ?>
+                    <div class="msg-cnt msg-right">
+                      <div class="avatar">
+                        <img src="<?php echo sanitize(showImg($myUserInfo['pic'])); ?>" alt="" class="avatar">
+                      </div>
+                      <p class="msg-inrTxt">
+                        <span class="triangle"></span>
+                        <?php echo sanitize($value['msg']); ?>
+                      </p>
+                    </div>
+          <?php
+                  }
+                }
+              }
+              else {
+          ?>
+              <p style="text-align:center;line-height:20;">メッセージ投稿はまだありません</p>
+          <?php
+              }
+          ?>
         </div>
         <div class="area-send-msg">
-          <textarea name="" id="" cols="30" rows="3"></textarea>
-          <input type="submit" value="送信" class="btn btn-send">
+          <form action="" method="post">
+            <textarea name="msg" id="" cols="30" rows="3"></textarea>
+            <input type="submit" value="送信" class="btn btn-send">
+          </form>
         </div>
       </section>
       
