@@ -64,7 +64,32 @@
         $switchImgSubs.on('click', function(e) {
             $switchImgMain.attr('src', $(this).attr('src'));
         });
+
+        // お気に入りに登録・削除
+        var $like,
+            likeProductId;
+        $like = $('.js-click-like') || null;
+        likeProductId = $like.data('productid') || null;
+        // 数値0をtrueするためにはundefined/nullで判定 0 == falseと見なしているから
+        if (likeProductId !== undefined && likeProductId !== null) {
+            $like.on('click', function() {
+                var $this = $(this);
+                $.ajax({
+                    type: "POST",
+                    url:'ajaxLike.php',
+                    data: { productId : likeProductId}
+                }).done(function ( data ) {
+                    // note 公開するページなのでユーザーから内容が見れてしまう！
+                    console.log('Ajax success');
+                    $this.toggleClass('active');
+                }).fail(function(msg) {
+                    console.log('Ajax error');
+                });
+            });
+        }
     });
+
+
 </script>
 </body>
 </html>

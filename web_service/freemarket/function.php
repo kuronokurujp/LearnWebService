@@ -756,4 +756,58 @@
         }
     }
 
+    // お気に入り中かどうか
+    function isLike($u_id, $p_id) {
+        debug('お気に入り情報があるか確認');
+        debug('ユーザーID:'.$u_id);
+        debug('商品ID:'.$p_id);
+        // 例外処理
+        try {
+            // DBへ接続
+            $dbh = dbConnect();
+            $sql = 'SELECT * FROM `like` WHERE product_id = :p_id AND user_id = :u_id';
+            $data = array(':p_id' => $p_id, ':u_id' => $u_id);
+            $result_flg = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flg);
+
+            if ($stmt->rowCount()) {
+                debug('お気に入りです');
+                return true;
+            }
+            else {
+                debug('お気に入りではない');
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
+        }
+    }
+
+    // ログイン中かどうか
+    function isLogin() {
+        // ログイン認証・自動ログアウト機能
+        // ログインしている場合
+        if (!empty($_SESSION['login_date'])) {
+            debug('ログイン済みユーザーです。');
+
+            // 現在日時が最終ログイン日時+有効期限を超えていた場合
+            if ($_SESSION['login_date'] + $_SESSION['login_limit'] < time()) {
+                debug('ログイン有効期限オーバーです。');
+
+                session_destroy();
+                return false;
+            }
+            // ログイン有効期限以内
+            else {
+                debug('ログイン有効期限以内です。');
+                return true;
+            }
+        }
+        // ログインしていない場合
+        else {
+            debug('未ログインユーザーです。');
+            return false;
+        }
+    }
 ?>
