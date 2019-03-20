@@ -20,7 +20,7 @@
     $p_id = (!empty($_GET['p_id'])) ? $_GET['p_id'] : '';
 
     // DBから商品データ取得
-    $dbFormData = (!empty($p_id)) ? getProduct($_SESSION['id'], $p_id) : '';
+    $dbFormData = (!empty($p_id)) ? getProduct($_SESSION['user_id'], $p_id) : '';
 
     // 新規編集データかあるいは編集データかを判断
     $edit_flag = (empty($dbFormData)) ? false : true;
@@ -170,7 +170,12 @@
 
           // クエリ成功の場合
           if ($stmt) {
-            $_SESSION['msg_success'] = SUC04;
+            if ($edit_flag) {
+              $_SESSION['msg_success'] = SUC06;
+            }
+            else {
+              $_SESSION['msg_success'] = SUC04;
+            }
             debug('マイページへ遷移します。');
             header("Location:mypage.php");
           }
@@ -212,7 +217,10 @@
 
         <label class="<?php if (!empty($err_msg['name'])) echo 'err'; ?>">
           商品名<span class="label-require">必須</span>
-          <input type="text" name="name">
+          <input type="text" name="name" value="<?php
+              $error_flag = false;
+              echo (!empty(getFormData('name', false, $error_flag))) ? getFormData('name', false, $error_flag) : 0;
+          ?>">
         </label>
         <div class="area-msg">
             <?php

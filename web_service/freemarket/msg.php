@@ -20,7 +20,7 @@
   $m_id = (!empty($_GET['m_id'])) ? $_GET['m_id'] : '';
   // DBから掲示板とメッセージデータを取得
   $viewData = getMsgsAndBord($m_id);
-  debug('取得したDBデータ：'.print_r($viewData, true));
+  debug('取得したDBメッセージデータ：'.print_r($viewData, true));
   // 不正チェック
   if (empty($viewData)) {
     error_log('エラー発生:指定したページに不正な値が入った');
@@ -29,7 +29,7 @@
 
   // 商品情報を取得
   $productInfo = getProductOne($viewData[0]['product_id']);
-  debug('取得したDBデータ:'.print_r($productInfo, true));
+  debug('取得したDB商品情報データ:'.print_r($productInfo, true));
   // 商品情報が入っているかチェック
   if (empty($productInfo)) {
     error_log('エラー発生:指定したページに不正な値が入った');
@@ -53,7 +53,7 @@
     unset($dealUserIds[$key]);
   }
 
-  // todo viewData連想配列の中にm_id=''のがあれば削除する
+  // viewData連想配列の中にm_id=''のがあれば削除する
   if (empty($viewData[0]['m_id']))
   {
     unset($viewData[0]);

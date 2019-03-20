@@ -11,6 +11,18 @@
     // ログイン認証
     require('auth.php');
 
+    $u_id = $_SESSION['user_id'];
+    // 自分が登録した商品データリスト取得
+    $myProductData = getMyProductData($u_id);
+    // 連絡掲示板のリスト取得
+    $myBordData = getMyMsgsAndBordData($u_id);
+    // お気に入りリスト取得
+    $myLikeData = getMyLikeData($u_id);
+
+//    debug('マイページの登録商品データ:'. print_r($myProductData, true));
+//    debug('マイページの連絡掲示板データ:'. print_r($myBordData, true));
+//    debug('マイページのお気に入りデータ:'. print_r($myLikeData, true));
+
     debug('画面表示処理終了------------------------');
 ?>
 
@@ -20,6 +32,11 @@
 ?>
 
 <body class="page-mypage page-2colum page-logined">
+  <style>
+    #main {
+      border: none !important;
+    }
+  </style>
 
 <!-- メニュー -->
 <?php
@@ -41,38 +58,22 @@
               <h2 class="title">
               登録商品一覧
               </h2>
-              <a href="" class="panel">
+              <?php
+                if (!empty($myProductData)):
+                  foreach ($myProductData as $key => $value):
+              ?>
+              <a href="registProduct.php<?php echo (!empty(appendGetParam(false))) ? appendGetParam(false).'&p_id='.$value['id'] : '?p_id='.$value['id']; ?>" class="panel">
                 <div class="panel-head">
-                  <img src="img/sample01.jpg" alt="商品タイトル">
+                  <img src="<?php echo showImg(sanitize($value['pic1'])); ?> " alt="<?php echo sanitize($value['name']); ?>">
                 </div>
                 <div class="panel-body">
-                  <p class="panel-title">iPhone6s <span class="price">¥89,000</span></p>
+                  <p class="panel-title"><?php echo sanitize($value['name']); ?><span class="price">¥<?php echo sanitize($value['price']); ?></span></p>
                 </div>
               </a>
-              <a href="" class="panel">
-                <div class="panel-head">
-                  <img src="img/sample02.jpg" alt="商品タイトル">
-                </div>
-                <div class="panel-body">
-                  <p class="panel-title">ASUS VivoBook E200HA <span class="price">¥75,000</span></p>
-                </div>
-              </a>
-              <a href="" class="panel">
-                <div class="panel-head">
-                  <img src="img/sample06.jpg" alt="商品タイトル">
-                </div>
-                <div class="panel-body">
-                  <p class="panel-title">MacBook Pro Retina <span class="price">¥89,000</span></p>
-                </div>
-              </a>
-              <a href="" class="panel">
-                <div class="panel-head">
-                  <img src="img/sample04.jpg" alt="商品タイトル">
-                </div>
-                <div class="panel-body">
-                  <p class="panel-title">ミスノ　クロスバイク <span class="price">¥29,000</span></p>
-                </div>
-              </a>
+              <?php
+                  endforeach;
+                endif;
+              ?>
             </section>
             <style>
               .list{
@@ -91,27 +92,35 @@
                   <th>メッセージ</th>
                 </tr>
               </thead>
+
               <tbody>
-                <tr>
-                    <td>2015.11.21</td>
-                    <td>山田 二郎</td>
-                    <td><a href="">サンプルテキストサンプルテキストサンプルテキストサンプルテキスト...</a></td>
-                </tr>
-                <tr>
-                  <td>2015.11.11</td>
-                  <td>山田 三郎</td>
-                  <td><a href="">サンプルテキストサンプルテキストサンプルテキストサンプルテキスト...</a></td>
-                </tr>
-                <tr>
-                  <td>2015.09.18</td>
-                  <td>山田 四郎</td>
-                  <td><a href="">サンプルテキストサンプルテキストサンプルテキストサンプルテキスト...</a></td>
-                </tr>
-                <tr>
-                  <td>2015.01.01</td>
-                  <td>山田 五郎</td>
-                  <td><a href="">サンプルテキストサンプルテキストサンプルテキストサンプルテキスト...</a></td>
-                </tr>
+                <?php
+                  if (!empty($myBordData)):
+                    foreach ($myBordData as $key => $value):
+                      if (!empty($value['msg'])) {
+                        $msg = array_shit($value['msg']);
+                ?>
+                      <tr>
+                          <td><?php echo sanitize(date('Y.m.d H:i:s', strtotime($msg['send_date'])));?></td>
+                          <td>XX XX</td>
+                          <td><a href="msg.php?m_id=<?php echo sanitize($value['id']); ?>"><?php echo mb_substr(sanitize($msg['msg'], 0, 48)); ?>...</a></td>
+                      </tr>
+                <?php
+                      }
+                      else {
+                ?>
+                      <tr>
+                        <td>---</td>
+                        <td>XX XX</td>
+                        <td><a href="msg.php?m_id=<?php echo sanitize($value['id']); ?>">まだメッセージはありません</a></td>
+                      </tr>
+                <?php
+                      }
+                ?>
+                <?php
+                    endforeach;
+                  endif;
+                ?>
               </tbody>
             </table>
           </section>
@@ -120,38 +129,22 @@
             <h2 class="title">
               お気に入り一覧
             </h2>
-            <a href="" class="panel">
-              <div class="panel-head">
-                <img src="img/sample01.jpg" alt="商品タイトル">
-              </div>
-              <div class="panel-body">
-                <p class="panel-title">iPhone6s <span class="price">¥89,000</span></p>
-              </div>
-            </a>
-            <a href="" class="panel">
-              <div class="panel-head">
-                <img src="img/sample02.jpg" alt="商品タイトル">
-              </div>
-              <div class="panel-body">
-                <p class="panel-title">ASUS VivoBook E200HA <span class="price">¥75,000</span></p>
-              </div>
-            </a>
-            <a href="" class="panel">
-              <div class="panel-head">
-                <img src="img/sample06.jpg" alt="商品タイトル">
-              </div>
-              <div class="panel-body">
-                <p class="panel-title">MacBook Pro Retina <span class="price">¥89,000</span></p>
-              </div>
-            </a>
-            <a href="" class="panel">
-              <div class="panel-head">
-                <img src="img/sample04.jpg" alt="商品タイトル">
-              </div>
-              <div class="panel-body">
-                <p class="panel-title">ミスノ　クロスバイク <span class="price">¥29,000</span></p>
-              </div>
-            </a>
+            <?php
+              if (!empty($myLikeData)):
+                foreach ($variable as $key => $value):
+            ?>
+                  <a href="productDetail.php<?php echo (!empty(appendGetParam(false))) ? appendGetParam(false).'&p_id='.$value['id'] : '?p_id='.$value['id']; ?>" class="panel">
+                    <div class="panel-head">
+                      <img src="<?php showImg(sanitize($value['pic1'])); ?>" alt="<?php echo sanitize($value['name']); ?>">
+                    </div>
+                    <div class="panel-body">
+                      <p class="panel-title"><?php echo sanitize($value['name']); ?><span class="price">¥<?php echo sanitize($vvalue['price']); ?></span></p>
+                    </div>
+                  </a>
+            <?php
+                endforeach;
+              endif;
+            ?>
           </section>
         </section>
 
@@ -159,9 +152,7 @@
         <?php
           require('sidebar_mypage.php');
         ?>
-
     </div>
-
 
 <!-- footer -->
 <?php

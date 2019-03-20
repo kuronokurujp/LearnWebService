@@ -69,6 +69,7 @@
     define('SUC03', 'メールを送信しました');
     define('SUC04', '登録しました');
     define('SUC05', '購入しました！相手と連絡を取りましょう');
+    define('SUC06', '更新しました');
 
     // selectboxのチェック
     function validSelect($inStr, &$outErrMsg) {
@@ -301,7 +302,7 @@
             $sql = 'SELECT * FROM product WHERE user_id = :u_id AND id = :p_id AND delete_flag = 0';
             $data = array(':u_id' => $u_id, ':p_id' => $p_id);
             $result_flag = false;
-            $stmt = queryPost($dbn, $sql, $data, $result_flag);
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
             if ($stmt) {
                 debug('クエリ成功');
                 return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -710,7 +711,7 @@
     // 画像表示用
     function showImg($inPath) {
         if (empty($inPath)) {
-            return 'mock/img/sample-img.png';
+            return 'img/sample-img.png';
         }
         else {
             return $inPath;
@@ -808,6 +809,89 @@
         else {
             debug('未ログインユーザーです。');
             return false;
+        }
+    }
+
+    // 自分が登録した商品データ取得
+    function getMyProductData($u_id) {
+        debug('ユーザーIDで登録した商品データ取得');
+        debug('ユーザーID:'.$u_id);
+
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+            $sql = 'SELECT * FROM `product` WHERE user_id = :u_id AND delete_flag = 0';
+            $data = array(':u_id' => $u_id);
+            $result_flag = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+
+            if ($stmt) {
+                return $stmt->fetchAll();
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
+        }
+    }
+
+    // 連絡掲示板のリスト取得
+    function getMyMsgsAndBordData($u_id) {
+        debug('自分の連絡掲示板のメッセージデータ取得');
+        debug('ユーザーID:'.$u_id);
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+            // あまりに長ったらしので結合をして整理
+            // でもメモリ食うのでコスト高
+            $sql = 'SELECT * FROM bord AS b WHERE b.sale_user = :u_id OR b.buy_user = :u_id AND b.delete_flag = 0';
+            $data = array(':u_id' => $u_id);
+            $result_flag = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+            $rst = $stmt->fetchAll();
+            if (!empty($rst)) {
+                // todo 取引相手の名前を取得
+                foreach ($rst as $key => $value) {
+                    $sql = 'SELECT * FROM message WHERE bord_id = :u_id AND delete_flag = 0 ORDER BY send_date DESC';
+                    $data = array(':u_id' => $u_id);
+                    $result_flag = false;
+                    $stmt = queryPost($dbh, $sql, $data, $result_flag);
+                    $rst[$key]['msg'] = $stmt->fetchAll();
+                }
+
+                return $rst;
+            }
+
+            return false;
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
+        }
+    }
+
+    // お気に入りリスト取得
+    function getMyLikeData($u_id) {
+        debug('自分のお気に入りリストを取得');
+        debug('ユーザーID:'.$u_id);
+
+        // 例外処理
+        try {
+            $dbh = dbConnect();
+            $sql = 'SELECT * FROM `like` AS l LEFT JOIN product AS p ON l.product_id = p.id WHERE l.user_id = :u_id';
+            $data = array(':u_id' => $u_id);
+            $result_flag = false;
+            $stmt = queryPost($dbh, $sql, $data, $result_flag);
+            if ($stmt) {
+                return $stmt->fetchAll();
+            }
+            else {
+                return false;
+            }
+        }
+        catch (Exception $e) {
+            error_log('エラー発生:'.$e->getMessage());
         }
     }
 ?>
