@@ -1,0 +1,64 @@
+/*にせドラクエのページのCSS*/
+
+body {
+    margin: 0 auto;
+    padding: 150px;
+    width: 25%;
+    background: #fbfbfa;
+    color: white;
+}
+h1 {
+    color: white;
+    font-size: 20px;
+    text-align: center;
+}
+h2 {
+    color: white;
+    font-size: 15px;
+    text-align: center;
+}
+form {
+    overflow: hidden;
+}
+input[type="submit"]{
+    border: none;
+    padding: 15px 30px;
+    margin-bottom: 15px;
+    background: black;
+    color: white;
+    float: right;
+}
+input[type="submit"]:hover {
+    background: #3d3939;
+    cursor: pointer;
+}
+
+#screen {
+    background: #000000;
+    position: relative;
+    padding: 15px;
+}
+#title_text {
+    text-align: center;
+    color: #333;
+}
+#game_start_text {
+    margin-top: 60px;
+}
+#img_monster {
+    width: 120px;
+    height: auto;
+    margin: 40px auto 0 auto;
+    display: block;
+}
+
+.history {
+    position: absolute;
+    right: -300px; 
+    top: 0;
+    color: black;
+    width: 250px;
+    height: 400px;
+    overflow-y: scroll;
+}
+
