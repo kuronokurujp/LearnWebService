@@ -8,13 +8,43 @@
 
     // マクロ定義
     define("MY_HP", 500);
-    define("MONSTER_NAME", 'monster_name');
-    define("MONSTER_HP", 'monster_hp');
-    define("MONSTER_IMG", 'monster_img');
-    define("MONSTER_ATTACK", 'monster_attack');
+    define("MONSTAR", 'monster');
     define("HISTORY", 'history');
     define("MY_HP_KEY", 'my_hp');
     define("KNOCK_DOWNCOUNT_KEY", 'knockDownCount');
+
+    // 敵クラス
+    class Monster {
+        public $name = '';
+        public $hp = 0;
+        public $img = null;
+        public $attack = 0;
+
+        // インスタンス生成時に呼ばれる
+        public function __construct($inName, $inHP, $inImg, $inAttack) {
+            $this->name = $inName;
+            $this->hp = $inHP;
+            $this->img = $inImg;
+            $this->attack = $inAttack;
+        }
+
+        // 死亡しているか
+        public function isDead() {
+            return $this->hp <= 0;
+        } 
+
+        // プレイヤーに攻撃
+        public function attack() {
+            $_SESSION[MY_HP_KEY] -= $this->attack;
+            $_SESSION[HISTORY] .= $this->attack.'ポイントのダメージを受けた!<br>';
+        }
+
+        // ダメージを受けた
+        public function damage($inDamageValue) {
+            $this->hp -= $inDamageValue;
+            $_SESSION[HISTORY] .= $attackPoint.'ポイントのダメージを与えた!<br>';
+        }
+    }
 
     $monsters = array();
 
@@ -30,32 +60,25 @@
     function addMonster($in_name, $in_hp, $in_img, $in_attack) {
         global $monsters;
 
-        $monsters[] = array(
-            MONSTER_NAME => $in_name,
-            MONSTER_HP => $in_hp,
-            MONSTER_IMG => $in_img,
-            MONSTER_ATTACK => $in_attack 
+        $monsters[] = new Monster(
+            $in_name,
+            $in_hp,
+            $in_img,
+            $in_attack 
         );
     }
 
-    function createMonster() {
+    function createMonstar() {
         global $monsters;
-        $viewMonster = $monsters[mt_rand(0, count($monsters) - 1)];
-        unset($_SESSION[MONSTER_NAME]);
-        unset($_SESSION[MONSTER_HP]);
-        unset($_SESSION[MONSTER_IMG]);
-        $_SESSION[MONSTER_NAME] = $viewMonster[MONSTER_NAME];
-        $_SESSION[MONSTER_HP] = $viewMonster[MONSTER_HP];
-        $_SESSION[MONSTER_IMG] = $viewMonster[MONSTER_IMG];
-        $_SESSION[MONSTER_ATTACK] = $viewMonster[MONSTER_ATTACK];
-        $_SESSION[HISTORY] .= $_SESSION[MONSTER_NAME].'現れた!<br>';
+        $_SESSION[MONSTAR] = $monsters[mt_rand(0, count($monsters) - 1)];
+        $_SESSION[HISTORY] .= $_SESSION[MONSTAR]->name.'現れた!<br>';
     }
 
     function init() {
         $_SESSION[HISTORY] .= '初期化します!<br>';
         $_SESSION[KNOCK_DOWNCOUNT_KEY] = 0;
         $_SESSION[MY_HP_KEY] = MY_HP;
-        createMonster();
+        createMonstar();
     }
 
     function gameOver() {
@@ -78,11 +101,10 @@
 
             // ランダムでモンスターに攻撃を与える
             $attackPoint = mt_rand(50, 100);
-            $_SESSION[MONSTER_HP] -= $attackPoint;
-            $_SESSION[HISTORY] .= $attackPoint.'ポイントのダメージを与えた!<br>';
+            $_SESSION[MONSTAR]->damage($attackPoint);
+
             // モンスターからの攻撃を受ける
-            $_SESSION[MY_HP_KEY] -= $_SESSION[MONSTER_ATTACK];
-            $_SESSION[HISTORY] .= $_SESSION[MONSTER_ATTACK].'ポイントのダメージを受けた!<br>';
+            $_SESSION[MONSTAR]->attack();
 
             // プレイヤーのHPが0以下になったらゲームオーバー
             if ($_SESSION[MY_HP_KEY] <= 0) {
@@ -90,16 +112,16 @@
             }
             else {
                 // 敵のHPが0以下になったら、別のモンスターを出現
-                if ($_SESSION[MONSTER_HP] <= 0) {
-                    $_SESSION[HISTORY] .= $_SESSION[MONSTER_NAME].'を倒した!<br>';
-                    createMonster();
+                if ($_SESSION[MONSTAR]->isDead()) {
+                    $_SESSION[HISTORY] .= $_SESSION[MONSTAR]->name.'を倒した!<br>';
+                    createMonstar();
                     $_SESSION[KNOCK_DOWNCOUNT_KEY] = $_SESSION[KNOCK_DOWNCOUNT_KEY] + 1;
                 }
             }
         }
         else if ($escapeFlag) {
             $_SESSION[HISTORY] .= '逃げた!<br>';
-            createMonster();
+            createMonstar();
         }
         $_POST = array();
     }
@@ -129,11 +151,11 @@
         else {
     ?>
     <!-- インゲーム画面 -->
-        <h2><?php echo $_SESSION[MONSTER_NAME].'が現れた！！'; ?></h2>
+        <h2><?php echo $_SESSION[MONSTAR]->name.'が現れた！！'; ?></h2>
         <div style="height: 150px;">
-            <img id="img_monster" src="<?php echo $_SESSION[MONSTER_IMG]; ?>">
+            <img id="img_monster" src="<?php echo $_SESSION[MONSTAR]->img; ?>">
         </div>
-        <p style="font-size:14px; text-align:center;">モンスターのHP: <?php echo $_SESSION[MONSTER_HP]; ?></p>
+        <p style="font-size:14px; text-align:center;">モンスターのHP: <?php echo $_SESSION[MONSTAR]->hp; ?></p>
         <p>倒したモンスター数: <?php echo $_SESSION[KNOCK_DOWNCOUNT_KEY]; ?></p>
         <p>勇者の残りHP: <?php echo $_SESSION[MY_HP_KEY]; ?></p>
         <form method="post">
