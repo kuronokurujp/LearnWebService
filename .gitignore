@@ -7,3 +7,4 @@ web_service/freemarket/var/
 web_service/freemarket/uploads/*.*
 web_service/sample/
 php/Objective/FakeDrakue/php.log
+wordpress/
