@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <!-- ヘッダー -->
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>アセットマネージャー</title>
+        <link rel="stylesheet" type="text/css" href="./../css/standard.css" />
+    </head>
+
+    <body>
+        <!--ヘッダー部-->
+        <div id="header_body">
+            <h2>アセットマネージャー</h2>
+
+            <ul id="nav_menu_body">
+                <li class="nav_right_position_item"><a href="upload.html">アップロード</a></li>
+                <li class="nav_right_position_item"><a href="top.html">ホーム</a></li>
+            </ul>
+        </div>
+
+        <!-- コンテンツ部 -->
+        <div id="contens_site">
+            <section id="contens_body">
+                <div id="contens_title">
+                    <p>コンテンツ</p>
+                </div>
+
+                <!-- ここに大量の絵を張り付け -->
+                <div id="panel_list">
+                    <div class="panel">
+                        <img src="./../img/thumbnail.png" />
+                        <p class="panel_title">
+                            タイトル: yyyy<br>
+                            登録日: 2019年3月12日
+                        </p>
+                    </div>
+                    <div class="panel">
+                        <img src="./../img/thumbnail.png" />
+                        <p class="panel_title">
+                            タイトル: yyyy<br>
+                            登録日: 2019年3月12日
+                        </p>
+                    </div>
+                    <div class="panel">
+                        <img src="./../img/thumbnail.png" />
+                        <p class="panel_title">
+                            タイトル: yyyy<br>
+                            登録日: 2019年3月12日
+                        </p>
+                    </div>
+                    <div class="panel">
+                        <img src="./../img/thumbnail.png" />
+                        <p class="panel_title">
+                            タイトル: yyyy<br>
+                            登録日: 2019年3月12日
+                        </p>
+                    </div>
+                    <div class="panel">
+                        <img src="./../img/thumbnail.png" />
+                        <p class="panel_title">
+                            タイトル: yyyy<br>
+                            登録日: 2019年3月12日
+                        </p>
+                    </div>
+
+                </div>
+
+                <div id="pageing">
+                    <p>1</p>
+                </div>
+
+            </section>
+
+            <!-- サイドメニュー -->
+            <section id="side_menu_body">
+                <p>ログイン</p>
+                <!-- ユーザー名の入力とメールアドレス入力-->
+                <!-- 登録ページに遷移するリンクボタンも用意する-->
+                <form>
+                    <div class="input_form_body">
+                        <dl>
+                            <dt>ユーザーネーム</dt>
+                            <dd>
+                                <div>
+                                    <input type="text">
+                                </div>
+                            </dd>
+                            <dt>パスワード</dt>
+                            <dd>
+                                <div>
+                                    <input type="text">
+                                </div>
+                            </dd>
+                        </dl>
+                    </div>
+                    <input type="submit" value="ログイン">
+                </form>
+                <a href="createAccount.html">アカウント作成</a>
+            </section>
+        </div>
+
+    </body>
+
+    <!-- フッター -->
+    <footer id="footer_body">
+        <p>Copyright © TKO. All Rights Reserved.</p>
+    </footer>
+
+    <script src="./../js/vendor/jquery-2.2.2.min.js"></script>
+    <script>
+        // フッターの配置更新
+        function updateFooterPosition(footer_id_name) {
+            var $footer_body = $(footer_id_name);
+            var footer_under_position = $footer_body.offset().top + $footer_body.outerHeight();
+
+            // フッター要素位置が画面下以外の位置にいるなら画面下位置に来るようにする
+            if (window.innerHeight > footer_under_position) {
+                $footer_body.attr({'style': 'position:fixed; top:' + (window.innerHeight - $footer_body.outerHeight()) + 'px;'});
+            }
+        }
+
+        $(function() {
+            updateFooterPosition('#footer_body');
+        });
+
+    </script>
+</html>

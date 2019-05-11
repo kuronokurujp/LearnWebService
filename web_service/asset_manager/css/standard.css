@@ -1,0 +1,89 @@
+body {
+    margin: 0px;
+    background: aqua;
+}
+
+/* ヘッダー部分 */
+#header_body {
+    color: white;
+    background: #333333;
+    width: 100%;
+}
+
+/* ヘッダーの見出しのタグ */
+#header_body h2 {
+    text-align: center;
+    margin: 0 auto;
+}
+
+#header_body #nav_menu_body {
+    height: 30px;
+    margin: 0;
+    background: rgb(100, 100, 100);
+    list-style: none;
+}
+
+.nav_right_position_item {
+    float: right;
+    border: rgb(200, 200, 200) 2px solid;
+    background: rgb(180, 180, 180);
+}
+
+#contens_site {
+    background: yellow;
+    width: 100%;
+    overflow: hidden;
+}
+
+#contens_body {
+    background: gray;
+    float: left;
+    width: 80%;
+}
+
+#contens_body > #contens_title {
+    text-align: center
+}
+
+#side_menu_body {
+    background: blue;
+    overflow: hidden;
+    width: 20%;
+    text-align: center;
+}
+
+#side_menu_body .input_form_body {
+    background: #fffcf5;
+}
+
+#footer_body {
+    background: #333333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    font-size: 12px;
+}
+
+#panel_list {
+    background: #555;
+    margin-left: 60px;
+    margin-right: 60px;
+    overflow: hidden;
+}
+
+#panel_list > .panel {
+    float: left;
+    margin: 10px;
+    background: #333333;
+    color: white;
+}
+
+.panel > .panel_title {
+    margin: 0 auto;
+}
+
+#pageing {
+    overflow: hidden;
+    text-align: center;
+}
