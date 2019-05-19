@@ -1,0 +1,36 @@
+#ajaxArea {
+    padding: 30px 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+}
+
+.formArea {
+    width: 30%;
+    margin: 100px auto;
+}
+
+.inputText {
+    padding: 10px;
+    background: #f6f5f4;
+    font-size: 18px;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+    display: block;
+    margin: 20px 0;
+}
+
+.inputText.inputText--s {
+    width: 20%;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    background: #333;
+    color: #fff;
+    box-shadow: none;
+    border: none;
+}

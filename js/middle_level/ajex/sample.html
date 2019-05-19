@@ -8,16 +8,23 @@
     </head>
 
     <body>
+        <script src="../jquery-3.3.1.min.js"></script>
         <div class="exmple">
+            <p class="js-name">name</p>
+            <p class="js-age">30</p>
             <script>
                 var data = {
                     name : 'test',
                     age : 30,
                 };
+
                 $.get("sample.html", data, function(in_result) {
+                    console.log(data);
+                    console.log(in_result);
                     alert('success');
-                    $("exmple").html(in_result);
+                    $(".exmple").html(in_result);
                 }, 'html');
+
             </script>
         </div>
 
