@@ -4,7 +4,7 @@ $(function() {
         
         $.ajax({
             type: "post",
-            url: "ajex_sample.php",
+            url: "ajax_sample.php",
             data: {
                 name: $(".js-get-val-name").val(),
                 age: $(".js-get-val-age").val()
