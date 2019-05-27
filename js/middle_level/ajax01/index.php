@@ -8,8 +8,12 @@
 
 <body>
     <form method="post" action="" class="formArea js-formArea">
-        <div id="ajaxArea" class="js-ajexArea">
+        <div id="ajaxArea" class="js-set-form">
             <p>ここだけ入れ替わります</p>
+            <h1>
+                名前は<span class="js-set-name"></span>です。
+                年齢は<span class="js-set-age"></span>です。
+            </h1>
         </div>
 
         <p><?php echo date('Y/M/d H:i:s'); ?></p>
