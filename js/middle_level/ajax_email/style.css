@@ -1,29 +1,57 @@
+#ajaxArea
+{
+    padding: 30px 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+}
+
 .formArea
 {
-
+    width: 30%;
+    margin: 100px auto;
 }
 
 .formItem
 {
-
+    margin-bottom: 20px;
 }
 
 .inputText
 {
-
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #f6f5f4;
+    background: #f6f5f4;
+    font-size: 18px;
+    width: 100%;
+    box-shadow: none;
+    display: block;
+    margin: 0;
 }
 
 .msgArea
 {
-
+    display: block;
+}
+.msgArea.is-error
+{
+    color: #ff0000;
+}
+.msgArea.is-success
+{
+    color: #32acee;
 }
 
-.is-error
+.inputText.is-error
 {
-
+    border-color: #ff0000;
+    background: #fff8f9;
 }
 
-.is-success
+.inputText.is-success
 {
-
+    border-color: #32acee;
+    background: #e1e5ee;
 }

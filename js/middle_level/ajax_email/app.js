@@ -21,31 +21,31 @@ $(function() {
 
                 // フォームにメッセージをセット
                 if (data.errorFlg) {
-                    $msg_email_field.addClass('.is-error');
-                    if ($msg_email_field.hasClass('.is-success'))
+                    $msg_email_field.addClass('is-error');
+                    if ($msg_email_field.hasClass('is-success'))
                     {
-                        $msg_email_field.removeClass('.is-success');
+                        $msg_email_field.removeClass('is-success');
                     }
 
-                    $that.addClass('.is-error');
-                    if ($that.hasClass('.is-success'))
+                    $that.addClass('is-error');
+                    if ($that.hasClass('is-success'))
                     {
-                        $that.removeClass('.is-success');
+                        $that.removeClass('is-success');
                     }
                 }
                 else {
-                    if ($msg_email_field.hasClass('.is-error'))
+                    if ($msg_email_field.hasClass('is-error'))
                     {
-                        $msg_email_field.removeClass('.is-error');
+                        $msg_email_field.removeClass('is-error');
                     }
 
-                    $msg_email_field.addClass('.is-success');
+                    $msg_email_field.addClass('is-success');
 
-                    if ($that.hasClass('.is-error'))
+                    if ($that.hasClass('is-error'))
                     {
-                        $that.removeClass('.is-error');
+                        $that.removeClass('is-error');
                     }
-                    $that.addClass('.is-success');
+                    $that.addClass('is-success');
                 }
 
                 // 表示するテキスト設定
