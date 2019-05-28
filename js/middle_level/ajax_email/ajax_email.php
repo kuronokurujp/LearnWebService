@@ -38,6 +38,9 @@ if (!empty($_POST)) {
         else {
             echo json_encode(array('errorFlg' => true, 'msg' => 'メールが見つからない'));
         }
+
+        // これ以上処理することがないので終了
+        exit();
     }
 }
 
