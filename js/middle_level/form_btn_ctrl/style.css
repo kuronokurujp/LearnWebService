@@ -1,0 +1,45 @@
+/* style */
+body {
+    background: #efefef;
+}
+
+.formArea {
+    /* 
+        margin: 上下 左右
+        左右をautoにすると中央に揃える
+    */
+    margin: 100px auto;
+    width: 500px;
+    background: white; 
+}
+
+.formInputArea {
+    width: 100%;
+    border: none;
+    background: #88888888;
+    height: 30px;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.formSubmitArea {
+    width: 100%;
+    background: black;
+    color: white;
+    border: none;
+    margin-top: 3px;
+}
+
+/* カーソルを置いた時のスタイル */
+.formSubmitArea:hover {
+    /* カーソルを置いた時の表示 */
+    cursor: pointer;
+    /* カーソルを置いた時の色を指定 */
+    background: #333;
+}
+
+/* ボタンを押せない時のスタイル */
+.formSubmitArea:disabled {
+    /* カーソル表示 */
+    cursor: not-allowed;
+}
