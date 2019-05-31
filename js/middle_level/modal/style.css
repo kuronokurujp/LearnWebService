@@ -1,0 +1,45 @@
+/*modal test*/
+.show-btn {
+    margin: 100px auto;
+    width: 100px;
+    background: black;
+    color: white;
+    border: none;
+    padding: 0px;
+    /* 
+        buttanタグはインライン要素、インライン要素ではmarginでの中央寄せにはならない
+        なのでブロック要素に切り替えている
+    */
+    display: block;
+}
+
+.show-btn:hover {
+    background: #888888;
+}
+
+.cover {
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+.modal {
+    width: 50%;
+    height: 200px;
+    position: absolute;
+    display: none;
+    /*これを指定しないとプラウザの左上基準からの位置にならない*/
+    top: 10%;
+    box-sizing: border-box;
+    z-index: 1;
+    background: #afafaf;
+}
+
+.show-close-btn {
+    background: #8d8d8d;
+    float: right;
+}
