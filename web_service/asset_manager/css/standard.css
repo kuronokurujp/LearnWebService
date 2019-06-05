@@ -8,6 +8,7 @@ body {
     color: white;
     background: #333333;
     width: 100%;
+    padding-top: 10px;
 }
 
 /* ヘッダーの見出しのタグ */
@@ -29,6 +30,7 @@ body {
     background: rgb(180, 180, 180);
 }
 
+/* トップ画面用のCSS */
 #contens_site {
     background: yellow;
     width: 100%;
@@ -60,7 +62,8 @@ body {
     background: #333333;
     color: white;
     text-align: center;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     width: 100%;
     font-size: 12px;
 }
@@ -86,4 +89,19 @@ body {
 #pageing {
     overflow: hidden;
     text-align: center;
+}
+
+/* アカウント作成用CSS */
+#account_input_menu {
+    background: #88888888;
+    padding: 10px;
+    width: 80%;
+    margin: 10px auto;
+    text-align: center;
+    font-size: 17px;
+}
+
+#account_input_menu .input_item {
+    margin: 0 auto;
+    padding: 10px;
 }
