@@ -74,29 +74,29 @@
 
             <!-- サイドメニュー -->
             <section id="side_menu_body">
-                <p>ログイン</p>
-                <!-- ユーザー名の入力とメールアドレス入力-->
-                <!-- 登録ページに遷移するリンクボタンも用意する-->
-                <form>
-                    <div class="input_form_body">
-                        <dl>
-                            <dt>ユーザーネーム</dt>
-                            <dd>
-                                <div>
-                                    <input type="text">
-                                </div>
-                            </dd>
-                            <dt>パスワード</dt>
-                            <dd>
-                                <div>
-                                    <input type="text">
-                                </div>
-                            </dd>
-                        </dl>
+                <div class="sign_in_form_body">
+                    <h3>ログイン</h3>
+                    <!-- ユーザー名の入力とメールアドレス入力-->
+                    <!-- 登録ページに遷移するリンクボタンも用意する-->
+                    <form>
+                        <div class="sign_in_form_item">
+                            <label for="email"></label>
+                            <input type="email" name="email" required="required" placeholder="Email Address">
+                        </div>
+
+                        <div class="sign_in_form_item">
+                            <label for="password"></label>
+                            <input type="password" name="password" required="required" placeholder="Password">
+                        </div>
+
+                        <div class="sign_in_button_panel">
+                            <input type="submit" class="button" title="sign_in" value="ログイン">
+                        </div>
+                    </form>
+                    <div class="sign_in_form_footer">
+                        <a href="createAccount.html">アカウント作成</a>
                     </div>
-                    <input type="submit" value="ログイン">
-                </form>
-                <a href="createAccount.html">アカウント作成</a>
+                </div>
             </section>
         </div>
 
