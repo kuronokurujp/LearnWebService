@@ -93,15 +93,57 @@ body {
 
 /* アカウント作成用CSS */
 #account_input_menu {
-    background: #88888888;
-    padding: 10px;
-    width: 80%;
-    margin: 10px auto;
+    border: double 5px #4ec4d3;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    color: #474747;
+    background: whitesmoke;
     text-align: center;
     font-size: 17px;
 }
 
-#account_input_menu .input_item {
+/* アカウント入力項目をきれいにする */
+#account_input_menu dl.form dl,dt,dd {
+    margin: 0;
+    padding: 0;
+}
+ 
+#account_input_menu dl.form{
+    background: #cccce6;
+    border: 1px solid #7777bb;
+    width: 100%;
+}
+
+#account_input_menu dl.form dt,dd {
+    padding: 6px;
+}
+ 
+#account_input_menu dl.form dd {
+    background: #f0f0f0;
+}
+
+#account_input_menu input{
+    max-width:99%;
+    width: 80%;
+}
+
+#account_input_menu textarea{
+    max-width:99%;
+}
+
+/* アカウント作成ボタン */
+#account_input_menu .button_item {
     margin: 0 auto;
-    padding: 10px;
+}
+
+#account_input_menu .button_create_push {
+    text-decoration: none;
+    color: #FFF;
+    background: #fd9535;/*色*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+    border: solid 2px #d27d00;/*線色*/
+    margin: 0 auto;
+    width: 100%;
 }

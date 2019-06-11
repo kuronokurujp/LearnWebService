@@ -22,36 +22,37 @@
         <div id="account_input_menu">
             <span>アカウント作成</span>
             <form method="POST">
-                <dl>
+                <dl class="form">
                     <!-- 名前 -->
-                    <dd class ="input_item" >
-                        <div>名前</div>
+                    <dt>名前</dt>
+                    <dd>
                         <input  type="text" name="name" title="名前">
                     </dd>
 
                     <!-- パスワード -->
-                    <dd class="input_item">
-                        <div>パスワード</div>
+                    <dt>パスワード</dt>
+                    <dd>
                         <input type="password" name="password" title="パスワード">
                     </dd>
 
                     <!-- ニックネーム -->
-                    <dd class="input_item">
-                        <div>ニックネーム</div>
+                    <dt>ニックネーム</dt>
+                    <dd>
                         <input type="text" name="nickname" title="ニックネーム">
                     </dd>
 
                     <!-- メールアドレス -->
-                    <dd class="input_item">
-                        <div>メールアドレス</div>
+                    <dt>メールアドレス</dt>
+                    <dd>
                         <input type="text" name="email" title="メールアドレス">
                     </dd>
-
-                    <!-- 作成ボタン -->
-                    <dd class="input_item">
-                        <input type="submit" name="create_btn" value="作成">
-                    </dd>
                 </dl>
+
+                <!-- 作成ボタン -->
+                <div class="button_item">
+                    <input class = "button_create_push" type="submit" name="create_btn" value="作成">
+                </div>
+
             </form>
         </div>
     </body>
