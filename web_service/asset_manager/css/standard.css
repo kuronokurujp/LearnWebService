@@ -17,17 +17,34 @@ body {
     margin: 0 auto;
 }
 
-#header_body #nav_menu_body {
-    height: 30px;
-    margin: 0;
-    background: rgb(100, 100, 100);
-    list-style: none;
+#header_body ul {
+    margin: 0px;
+    margin-top: 10px;
+    list-style-type: none;
+    overflow: hidden;
 }
 
-.nav_right_position_item {
+#header_body li {
     float: right;
-    border: rgb(200, 200, 200) 2px solid;
-    background: rgb(180, 180, 180);
+    border-left: rgb(200, 200, 200) 2px solid;
+    border-top: rgb(200, 200, 200) 2px solid;
+}
+
+#header_body li a {
+    /* aタグはdisplay:inline これだと上下のmarginが出来ないしpaddingで上下すると項目がかぶるのでblockに*/
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 6px 32px;
+    text-decoration: none;
+}
+
+#header_body li a:hover:not(.active) {
+    background-color: #a9bce2;
+}
+
+#header_body li .active {
+    background-color: #da3c41;
 }
 
 /* トップ画面用のCSS */
