@@ -49,23 +49,21 @@ body {
 
 /* トップ画面用のCSS */
 #contens_site {
-    background: yellow;
+    height: 560px;
     width: 100%;
     overflow: hidden;
 }
 
 #contens_body {
-    background: gray;
     float: left;
     width: 80%;
-}
-
-#contens_body > #contens_title {
-    text-align: center
+    background: #e0f0f0;
 }
 
 #side_menu_body {
-    background: blue;
+    height: 560px;
+    background: #fffcf5;
+    margin: 0;
     overflow: hidden;
     width: 20%;
     text-align: center;
@@ -152,6 +150,34 @@ background: #ee3e52;
  border-bottom: 1px dotted #8c8c8c;
 }
 
+/* 画像パネルリスト */
+#panel_list {
+    padding-left: 20px;
+    padding-top: 25px;
+    height: 480px;
+    max-height: 640px;
+    overflow-y: scroll;
+}
+
+#panel_list > .panel {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+    background: #333333;
+    color: white;
+    border: rgb(0, 0, 0) 2px solid;
+}
+
+.panel > .panel_title {
+    margin: 0 auto;
+}
+
+.panel img {
+    width: 100%;
+    height: auto;
+    position: relative;
+}
+
 /* 画面真下のフッター */
 #footer_body {
     background: #333333;
@@ -163,27 +189,38 @@ background: #ee3e52;
     font-size: 12px;
 }
 
-#panel_list {
-    background: #555;
-    margin-left: 60px;
-    margin-right: 60px;
-    overflow: hidden;
-}
-
-#panel_list > .panel {
-    float: left;
-    margin: 10px;
-    background: #333333;
-    color: white;
-}
-
-.panel > .panel_title {
-    margin: 0 auto;
-}
-
+/* ページング */
 #pageing {
-    overflow: hidden;
+    padding-top: 15px;
+    padding-bottom: 15px;
     text-align: center;
+    text-shadow: 1px 1px 0 #FFF;
+    font-family: Helvetica;
+    border-top: rgb(200, 200, 200) 2px solid;
+    border-bottom: rgb(200, 200, 200) 2px solid;
+    background: rgb(240, 240, 240);
+}
+
+#pageing a {
+    display: inline-block;
+    margin: 0 5px 0 0;
+    padding: 0 7px;
+    color: #333333;
+    text-decoration: none;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border: 1px solid #bbbbbb;
+    background: #FFF;
+}
+
+#pageing.prev_btn {
+
+}
+
+#pageing.next_btn {
+
 }
 
 /* アカウント作成用CSS */
