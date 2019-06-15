@@ -1,6 +1,14 @@
 body {
     margin: 0px;
-    background: aqua;
+    background: #fefefb;
+}
+
+h2 {
+    color:#a8a8e4 ;
+}
+
+h3 {
+    color:#a8a8e4 ;
 }
 
 /* ヘッダー部分 */
@@ -57,7 +65,6 @@ body {
 #contens_body {
     float: left;
     width: 80%;
-    background: #e0f0f0;
 }
 
 #side_menu_body {
@@ -163,7 +170,7 @@ background: #ee3e52;
     margin-right: 10px;
     margin-bottom: 10px;
     float: left;
-    background: #333333;
+    background: #a8a8e4;
     color: white;
     border: rgb(0, 0, 0) 2px solid;
 }
@@ -195,10 +202,6 @@ background: #ee3e52;
     padding-bottom: 15px;
     text-align: center;
     text-shadow: 1px 1px 0 #FFF;
-    font-family: Helvetica;
-    border-top: rgb(200, 200, 200) 2px solid;
-    border-bottom: rgb(200, 200, 200) 2px solid;
-    background: rgb(240, 240, 240);
 }
 
 #pageing a {
@@ -225,7 +228,7 @@ background: #ee3e52;
 
 /* アカウント作成用CSS */
 #account_input_menu {
-    border: double 5px #4ec4d3;
+    border: double 5px black;
     padding: 0.5em 1em;
     margin: 2em 0;
     color: #474747;
