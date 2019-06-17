@@ -282,3 +282,32 @@ background: #ee3e52;
     margin: 0 auto;
     width: 100%;
 }
+
+/* アップロード画面 */
+#upload_panel {
+    margin: 10px auto;
+    min-height: 600px;
+    width: 33.3%;
+}
+
+#upload_panel .button_upload_push {
+    text-decoration: none;
+    color: #FFF;
+    background: #fd9535;/*色*/
+    border-radius: 4px;/*角の丸み*/
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.2), inset 0 -2px 0 rgba(0, 0, 0, 0.05);
+    font-weight: bold;
+    border: solid 2px #d27d00;/*線色*/
+    margin: 32px auto;
+    width: 100%;
+}
+
+#upload_panel .button_upload_push:hover {
+    background: #f09535;/*色*/
+}
+
+/* アップロード画像プレビュー */
+#upload_panel .prev_img {
+    width: 100%;
+    margin-bottom: 32px;
+}
