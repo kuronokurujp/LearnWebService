@@ -1,0 +1,77 @@
+body {
+    background: #c8c8c8ff; 
+    color: #333;
+}
+
+.main {
+    width: 980px;
+    margin: 30px auto;
+}
+
+.main > .slider {
+    width: 980px;
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider > .slider__container {
+    padding: 0;
+    overflow: hidden;
+    margin: 0;
+    list-style: none;
+    /*
+        親ボックスの左上の基準位置にするため
+        「position: absolute;」
+        これを指定
+    */
+    position: relative;
+}
+
+.slider__container> .slider__item {
+    width: 980px;
+    height: 400px;
+    background: #333;
+    color: #fff;
+    float: left;
+    text-align: center;
+    line-height: 400px;
+    font-size: 5em;
+}
+
+.slider__container> .slider__item1 {
+    background: #ff0000ff;
+}
+
+.slider__container> .slider__item2 {
+    background: #00ff00ff;
+}
+
+.slider__container> .slider__item3 {
+    background: #0000ffff;
+}
+
+.slider__container> .slider__item4 {
+    background: #ffff00ff;
+}
+
+.slider__container> .slider__item5 {
+    background: #00ffffff;
+}
+
+.slider > .slider__nav {
+    color: #fff;
+    position: absolute;
+    top: 180px;
+    font-size: 40px !important;
+    cursor: pointer;
+    z-index: 2;
+} 
+
+.slider > .slide__prev {
+    left: 20px;
+}
+
+.slider > .slide__next {
+    right: 20px;;
+}
