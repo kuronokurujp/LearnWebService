@@ -1,16 +1,19 @@
+<?php
+    require('./php/common.php');
+
+    $common = new Common();
+    $common->LogStart('トップページ');
+    $common->LogEnd();
+?>
+
 <!-- ヘッド部 -->
 <?php require('./php/head.php'); ?>
 
     <body>
         <!--ヘッダー部-->
-        <div id="header_body">
-            <h2>アセットマネージャー</h2>
-
-            <ul>
-                <li><a href="upload.php">アップロード</a></li>
-                <li><a href="index.php" class="active">ホーム</a></li>
-            </ul>
-        </div>
+        <?php
+            require('./php/header.php');
+        ?>
 
         <!-- コンテンツ部 -->
         <div id="contens_site">

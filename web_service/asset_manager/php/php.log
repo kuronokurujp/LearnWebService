@@ -1,0 +1,130 @@
+[25-Jun-2019 23:34:25 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:34:25 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:34:25 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:34:25 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:34:25 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:34:25 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:34:25 Asia/Tokyo] PHP Notice:  Undefined variable: _SESSION in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 35
+[25-Jun-2019 23:34:25 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:34:25 Asia/Tokyo] デバッグ: セッション変数の中身:
+[25-Jun-2019 23:34:25 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:34:25 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473265
+[25-Jun-2019 23:36:09 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:36:09 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:36:09 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:36:09 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:36:09 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:36:09 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:36:09 Asia/Tokyo] PHP Notice:  Undefined variable: _SESSION in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 35
+[25-Jun-2019 23:36:09 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:36:09 Asia/Tokyo] デバッグ: セッション変数の中身:
+[25-Jun-2019 23:36:09 Asia/Tokyo] PHP Notice:  Undefined variable: debug_flag in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 23
+[25-Jun-2019 23:36:09 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473369
+[25-Jun-2019 23:38:37 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:38:37 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:38:37 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:38:37 Asia/Tokyo] PHP Notice:  Undefined variable: _SESSION in D:\Work\NowProject\LearnWebService\web_service\asset_manager\php\common.php on line 35
+[25-Jun-2019 23:38:37 Asia/Tokyo] デバッグ: セッション変数の中身:
+[25-Jun-2019 23:38:37 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473517
+[25-Jun-2019 23:39:23 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:39:23 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:39:23 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:39:23 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473563
+[25-Jun-2019 23:40:53 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:40:53 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:40:53 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:40:53 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473653
+[25-Jun-2019 23:40:54 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:40:54 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:40:54 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:40:54 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473654
+[25-Jun-2019 23:41:04 Asia/Tokyo] デバッグ: アカウント作成
+[25-Jun-2019 23:41:04 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:41:04 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:41:04 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473664
+[25-Jun-2019 23:41:08 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:41:08 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:41:08 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:41:08 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473668
+[25-Jun-2019 23:42:53 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:42:53 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:42:53 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:42:53 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473773
+[25-Jun-2019 23:42:55 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:42:55 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:42:55 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:42:55 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473775
+[25-Jun-2019 23:42:59 Asia/Tokyo] デバッグ: アカウント作成
+[25-Jun-2019 23:42:59 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:42:59 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:42:59 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473779
+[25-Jun-2019 23:43:17 Asia/Tokyo] デバッグ: アカウント作成
+[25-Jun-2019 23:43:17 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:43:17 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:43:17 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473797
+[25-Jun-2019 23:43:27 Asia/Tokyo] デバッグ: アカウント作成
+[25-Jun-2019 23:43:27 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:43:27 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:43:27 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473807
+[25-Jun-2019 23:43:28 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:43:28 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:43:28 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:43:28 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473808
+[25-Jun-2019 23:43:30 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:43:30 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:43:30 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:43:30 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473810
+[25-Jun-2019 23:43:33 Asia/Tokyo] デバッグ: アカウント作成
+[25-Jun-2019 23:43:33 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:43:33 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:43:33 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473813
+[25-Jun-2019 23:43:34 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:43:34 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:43:34 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:43:34 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473814
+[25-Jun-2019 23:44:05 Asia/Tokyo] デバッグ: アカウント作成
+[25-Jun-2019 23:44:05 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:44:05 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:44:05 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473845
+[25-Jun-2019 23:44:08 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:44:08 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:44:08 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:44:08 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473848
+[25-Jun-2019 23:44:09 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:44:09 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:44:09 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:44:09 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473849
+[25-Jun-2019 23:44:11 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:44:11 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:44:11 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:44:11 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561473851
+[25-Jun-2019 23:47:16 Asia/Tokyo] デバッグ: 画像更新
+[25-Jun-2019 23:47:16 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:47:16 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:47:16 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474036
+[25-Jun-2019 23:47:29 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:47:29 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:47:29 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:47:29 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474049
+[25-Jun-2019 23:48:11 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:48:11 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理開始
+[25-Jun-2019 23:48:11 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:48:11 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474091
+[25-Jun-2019 23:48:11 Asia/Tokyo] デバッグ: トップページ
+[25-Jun-2019 23:48:11 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 画面表示処理終了
+[25-Jun-2019 23:49:39 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ:画面表示処理開始
+[25-Jun-2019 23:49:39 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:49:39 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474179
+[25-Jun-2019 23:49:39 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ:画面表示処理終了
+[25-Jun-2019 23:50:11 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ画面表示処理開始
+[25-Jun-2019 23:50:11 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:50:11 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474211
+[25-Jun-2019 23:50:11 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ画面表示処理終了
+[25-Jun-2019 23:50:21 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ画面表示処理開始
+[25-Jun-2019 23:50:21 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:50:21 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474221
+[25-Jun-2019 23:50:21 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ画面表示処理終了
+[25-Jun-2019 23:50:38 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ画面処理開始
+[25-Jun-2019 23:50:38 Asia/Tokyo] デバッグ: セッションID:
+[25-Jun-2019 23:50:38 Asia/Tokyo] デバッグ: 現在日時タイムスタンプ:1561474238
+[25-Jun-2019 23:50:38 Asia/Tokyo] デバッグ: >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>トップページ画面処理終了

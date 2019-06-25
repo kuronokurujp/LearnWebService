@@ -1,15 +1,19 @@
+<?php
+    require('./php/common.php');
+
+    $common = new Common();
+    $common->LogStart('画像更新');
+    $common->LogEnd();
+?>
+
 <!-- ヘッド部 -->
 <?php require('./php/head.php'); ?>
 
     <body>
         <!--ヘッダー部-->
-        <div id="header_body">
-            <h2>アセットマネージャー</h2>
-            <ul>
-                <li><a href="upload.html">アップロード</a></li>
-                <li><a href="top.html" class="active">ホーム</a></li>
-            </ul>
-        </div>
+        <?php
+            require('./php/header.php');
+        ?>
 
         <!-- コンテンツ部 -->
         <div id="upload_panel">
