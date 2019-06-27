@@ -8,3 +8,5 @@ web_service/freemarket/uploads/*.*
 web_service/sample/
 php/Objective/FakeDrakue/php.log
 wordpress/
+js/middle_level/npm/node_modules/
+js/middle_level/npm/package-lock.json
