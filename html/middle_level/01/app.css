@@ -1,0 +1,38 @@
+body {
+    background: rgb(125, 125, 125);
+    color: black;
+}
+
+#main {
+    background: white;
+    width: 980px;
+    padding: 32px 40px;
+    margin: 100px auto;
+    /*border-boxにすればwidth値のサイズになる。ないとpadding値が加算されてサイズになる*/
+    box-sizing: border-box;
+    border-style: none;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.btn {
+    padding: 20px 100px;
+    background: #338888;
+    /*button要素はインラインなのでmarginが効かないのでblockに変更*/
+    display: block;
+    margin: 0px auto;
+    color: white;
+    box-shadow: 3px 3px 3px black;
+    border-style: none;
+
+    transition: all 1s;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background: #33ff88;
+    box-shadow: 3px 10px 20px black;
+    transform: translateY(-10px);
+
+    transition: all 1s;
+}
