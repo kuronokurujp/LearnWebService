@@ -1,0 +1,66 @@
+body {
+    background: #bbbbbb;
+}
+
+#main {
+    background: white;
+    width: 980px;
+    margin: 40px auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.btn {
+    background: #00bbbb;
+    width: 480px;
+    display: block;
+    padding: 20px;
+    margin: 0px auto;
+    box-sizing: border-box;
+    border-style: none;
+    border-radius: 3px;
+    box-shadow: black 2px 3px 10px;
+
+    transition: all 1s;
+}
+
+.btn--translate:hover {
+    transform: translateX(10%)
+}
+
+.btn--scale:hover {
+    transform: scale(2, 2)
+}
+
+.btn--rotation:hover {
+    transform: rotate(10deg);
+}
+
+.btn--skew:hover {
+    transform: skew(10deg, 10deg);
+}
+
+.btn--color_green {
+    background: #00ff00;
+}
+
+.btn--color_red {
+    background: #ff0000;
+}
+
+.btn--color_yellow {
+    background: #ffff00;
+}
+
+.btn:hover {
+    background: #bbbbbb;
+    cursor: pointer;
+    box-shadow: black 12px 12px 20px;
+
+    transition: all 1s;
+}
