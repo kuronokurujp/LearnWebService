@@ -1,0 +1,101 @@
+body {
+    background: #f3f3f3;
+}
+
+#main {
+    background: white;
+    width: 980px;
+    box-sizing: border-box;
+    margin: 100px auto;
+    text-align: center;
+}
+
+.section {
+    margin: 0 auto;
+    margin-bottom: 50px;
+    width: 90%;
+}
+.section::after {
+    content: '';
+    display: block;
+    /*
+        floatの設定を解除できる
+        何のメリットがあるの？
+        float: leftの設定のままだと
+        ずっとパーツが横並びに並ぶ
+        親パーツの横サイズを超えると自動で段落が起きる
+        結果意図しない表示になる
+        解除する事で、意図した位置で段落させる事が出来る
+    */
+    clear: both;
+}
+
+.col-6 {
+    float: left;
+    width: 50%;
+    margin-right: 10px;
+}
+
+.col-6:last-child {
+    margin-right: -10px;
+}
+
+.thumbnail {
+    position: relative;
+}
+
+.thumbnail img {
+    width: 100%;
+    vertical-align: bottom;
+}
+
+.thumbnailCover {
+    opacity: 0;
+    /*親要素を覆う平面が作れる*/
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    right: 0px;;
+    left: 0px;
+    /*
+        親要素を基準としてwidth:100%/height:100%となる
+        width: 100%;
+        height: 100%;
+        では実現できない
+    */
+
+    transition: .25s;
+    transform: scale(1.2);
+}
+
+.thumbnailCover--sample1 {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.thumbnailCover:hover {
+    opacity: 1;
+    transition: .25s;
+    transform: scale(1);
+}
+
+.thumbnailCover .fas {
+    position: relative;
+    top: 50%;
+    font-size: 200%;
+}
+
+.thumbnail--sample2 {
+    overflow: hidden;
+}
+
+.thumbnail--sample2 img {
+    vertical-align: bottom;
+    transition: 0.25s;
+    transform: scale(1);
+}
+
+.thumbnail--sample2 img:hover {
+    translate: 0.25s;
+    transform: scale(1.2);
+    transform: rotate(15deg);
+}
