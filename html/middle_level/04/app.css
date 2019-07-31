@@ -1,0 +1,98 @@
+body {
+    background: #dddddd;
+}
+
+#main {
+    background: white;
+    width: 980px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px;
+}
+
+.section {
+    margin-bottom: 50px;
+}
+
+.far {
+    font-size: 30px !important;
+}
+
+.fas {
+    font-size: 30px !important;
+}
+
+.fav {
+    cursor: pointer;
+    transition: all .25s;
+    background: white;
+    position: absolute;
+    z-index: 2;
+}
+
+.fav2 {
+    position: absolute;
+    z-index: 1;
+}
+
+.fa-heart {
+    color: #ea9198;
+}
+
+.fav.is-active {
+    animation: favAnime .7s ease-out;
+}
+
+.fav2.is-active {
+    animation: fav2Anime 1s ease-out;
+}
+
+@keyframes favAnime {
+    0% {
+        transform: scale(.7);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes fav2Anime {
+    0% {
+        z-index: 3;
+        transform: translateX(-3px) translateY(0px);
+    }
+
+    10% {
+        transform: translateY(-5px);
+    }
+    20% {
+        transform: translateY(-10px);
+    }
+    30% {
+        transform: translateY(-15px) translateX(3px);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    50% {
+        transform: translateY(-25px);
+    }
+    60% {
+        transform: translateY(-30px) translateX(-3px);
+    }
+    70% {
+        transform: translateY(-35px);
+    }
+    80% {
+        transform: translateY(-45px);
+    }
+    90% {
+        transform: translateY(-50px) translateX(3px);
+    }
+    100% {
+        transform: translateY(-55px);
+        opacity: 0%;
+    }
+}

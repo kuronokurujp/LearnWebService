@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="JP">
+    <head>
+        <meta charset="utf-8">
+        <link href="app.css" rel="stylesheet" type="text/css">
+        <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+        <title>アイコンアニメ</title>
+    </head>
+    <body>
+        <div id="main">
+            <h1>アイコンアニメ</h1>
+            <section class="section">
+                <div>
+                    <i class="far js-click-animation fa-heart fav" aria-hidden="true"></i>
+                    <i class="fas js-click-animation2 fa-heart fav2" aria-hidden="true"></i>
+                </div>
+            </section>
+        </div>
+        <script src="jquery-2.2.2.min.js"></script>
+        <script>
+            $(function() {
+                $('.js-click-animation').on('click', function() {
+                    var $this = $(this);
+                    $this.toggleClass('far');
+                    $this.toggleClass('fas');
+                    $this.toggleClass('is-active');
+
+                    $('.js-click-animation2').toggleClass('is-active');
+                });
+            });
+        </script>
+    </body>
+</html>
