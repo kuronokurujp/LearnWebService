@@ -1,0 +1,13 @@
+{
+    "Drills Register": "問題登録",
+    "Title": "タイトル",
+    "CategoryName": "カテゴリー",
+    "Problem": "問題",
+    "Register": "登録",
+    "validation.required": "入力必須です",
+    "Drill List": "練習問題リスト",
+    "Go Practice": "練習開始！",
+    "Go Edit": "編集開始！",
+    "Go Delete":"削除開始!",
+    "Confirm Btn Delete":"削除しますか？"
+}
