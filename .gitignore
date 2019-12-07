@@ -12,3 +12,6 @@ js/middle_level/npm/node_modules/
 js/middle_level/npm/package-lock.json
 js/middle_level/gulp_test/node_modules/
 js/middle_level/gulp_test/package-lock.json
+*.lock
+node_modules/
+/pakcage-lock.json
